@@ -1,5 +1,3 @@
-const Abi = require('./abi.js');
-
 class Contract {
 	constructor(address, abi) {
 		this.address = address;
@@ -21,12 +19,17 @@ class Contract {
 
 function makeCallFunction(contract, name) {
 	return function(...params) {
-		const target = contract.address;
+		const address = contract.address;
 		const inputs = contract.functions.find(f => f.name == name).inputs;
-		const callData = Abi.encode(name, inputs, params);
+		const outputs = contract.functions.find(f => f.name == name).outputs;
 		return {
-			target,
-			callData,
+			contract: {
+				address,
+			},
+			name,
+			inputs,
+			outputs,
+			params,
 		};
 	};
 }
