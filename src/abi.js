@@ -12,6 +12,12 @@ class Abi {
 		const inputData = `0x${functionData}${argumentData}`;
 		return inputData;
 	}
+
+	static decode(outputs, data) {
+		const abiCoder = new ethers.utils.AbiCoder();
+		const params = abiCoder.decode(outputs, data);
+		return params;
+	}
 }
 
 function getFunctionSignature(name, inputs) {
