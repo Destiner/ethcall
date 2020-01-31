@@ -22,7 +22,7 @@ npm install ethcall
 ```js
 const { ethers } = require('ethers');
 
-const EthCall = require('../src');
+const EthCall = require('ethcall');
 
 const erc20Abi = require('./abi/erc20.json');
 
