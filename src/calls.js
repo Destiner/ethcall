@@ -1,13 +1,12 @@
 const Abi = require('./abi.js');
 const Contract = require('./contract.js');
+const Multicall = require('./multicall.js');
 
 const multicallAbi = require('./abi/multicall.json');
 
-const multicallAddress = '0x5e227ad1969ea493b43f840cff78d08a6fc17796';
-
-const multicall = new Contract(multicallAddress, multicallAbi);
-
-function getEthBalance(address) {
+async function getEthBalance(address, provider) {
+	const multicallAddress = await Multicall.getAddress(provider);
+	const multicall = new Contract(multicallAddress, multicallAbi);
 	return multicall.getEthBalance(address);
 }
 
