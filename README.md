@@ -20,9 +20,8 @@ npm install ethcall
 ## Example
 
 ```js
+const ethcall = require('ethcall');
 const { ethers } = require('ethers');
-
-const EthCall = require('ethcall');
 
 const erc20Abi = require('./abi/erc20.json');
 
@@ -32,14 +31,17 @@ const provider = new ethers.providers.InfuraProvider('mainnet', infuraKey);
 const daiAddress = '0x6b175474e89094c44da98b954eedeac495271d0f';
 
 async function call() {
-	const daiContract = new EthCall.Contract(daiAddress, erc20Abi);
+	const ethcallProvider = new ethcall.Provider();
+	await ethcallProvider.init(provider);
+
+	const daiContract = new ethcall.Contract(daiAddress, erc20Abi);
 
 	const uniswapDaiPool = '0x2a1530c4c41db0b0b2bb646cb5eb1a67b7158667';
 
-	const ethBalanceCall = EthCall.calls.getEthBalance(uniswapDaiPool);
+	const ethBalanceCall = ethcallProvider.getEthBalance(uniswapDaiPool);
 	const daiBalanceCall = daiContract.balanceOf(uniswapDaiPool);
 
-	const data = await EthCall.all([ethBalanceCall, daiBalanceCall], provider);
+	const data = await ethcallProvider.all([ethBalanceCall, daiBalanceCall]);
 
 	const ethBalance = data[0];
 	const daiBalance = data[1];
