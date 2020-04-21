@@ -1,12 +1,10 @@
 const { ethers } = require('ethers');
 
 const Abi = require('./abi.js');
-const Multicall = require('./multicall.js');
 
 const multicallAbi = require('./abi/multicall.json');
 
-async function all(calls, provider) {
-	const multicallAddress = await Multicall.getAddress(provider);
+async function all(calls, multicallAddress, provider) {
 	const multicall = new ethers.Contract(multicallAddress, multicallAbi, provider);
 	const callRequests = calls.map(call => {
 		const callData = Abi.encode(call.name, call.inputs, call.params);

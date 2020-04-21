@@ -1,9 +1,7 @@
-const call = require('./call.js');
-const calls = require('./calls.js');
 const Contract = require('./contract.js');
+const Provider = require('./provider.js');
 
 module.exports = {
-	all: call.all,
-	calls,
 	Contract,
+	Provider,
 };
