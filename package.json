@@ -13,7 +13,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "ethers": "^4.0.43",
+    "@ethersproject/abi": "^5.0.0",
+    "@ethersproject/contracts": "^5.0.0",
     "js-sha3": "^0.8.0"
   },
   "devDependencies": {

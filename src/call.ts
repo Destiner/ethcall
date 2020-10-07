@@ -1,11 +1,11 @@
-import { ethers } from 'ethers';
+import { Contract } from '@ethersproject/contracts';
 
 import * as multicallAbi from './abi/multicall.json';
 
 import Abi from './abi';
 
 export async function all(calls: any[], multicallAddress: string, provider: any) {
-	const multicall = new ethers.Contract(multicallAddress, multicallAbi, provider);
+	const multicall = new Contract(multicallAddress, multicallAbi, provider);
 	const callRequests = calls.map(call => {
 		const callData = Abi.encode(call.name, call.inputs, call.params);
 		return {

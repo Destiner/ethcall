@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { defaultAbiCoder } from '@ethersproject/abi';
 import * as sha3 from 'js-sha3';
 
 export default class Abi {
@@ -6,16 +6,14 @@ export default class Abi {
 		const functionSignature = getFunctionSignature(name, inputs);
 		const functionHash = sha3.keccak256(functionSignature);
 		const functionData = functionHash.substring(0, 8);
-		const abiCoder = new ethers.utils.AbiCoder();
-		const argumentString = abiCoder.encode(inputs, params);
+		const argumentString = defaultAbiCoder.encode(inputs, params);
 		const argumentData = argumentString.substring(2);
 		const inputData = `0x${functionData}${argumentData}`;
 		return inputData;
 	}
 
 	static decode(outputs: any[], data: string) {
-		const abiCoder = new ethers.utils.AbiCoder();
-		const params = abiCoder.decode(outputs, data);
+		const params = defaultAbiCoder.decode(outputs, data);
 		return params;
 	}
 }
