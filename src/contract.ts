@@ -1,8 +1,10 @@
+import { Call } from './call';
+
 export default class Contract {
 	address: string;
 	abi: any[];
 	functions: any[];
-	[ key: string ]: any;
+	[ key: string ]: Call | any;
 
 	constructor(address: string, abi: any[]) {
 		this.address = address;
@@ -22,8 +24,8 @@ export default class Contract {
 	}
 }
 
-function makeCallFunction(contract: any, name: string) {
-	return function(...params: any[]) {
+function makeCallFunction(contract: Contract, name: string) {
+	return function(...params: any[]): Call {
 		const address = contract.address;
 		const inputs = contract.functions.find((f: any) => f.name === name).inputs;
 		const outputs = contract.functions.find((f: any) => f.name === name).outputs;

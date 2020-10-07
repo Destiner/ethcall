@@ -1,17 +1,18 @@
-import { all as callAll } from './call';
+import { BaseProvider } from '@ethersproject/providers';
+
+import { Call, all as callAll } from './call';
 import { getEthBalance } from './calls';
 import Contract from './contract';
 
 export default class Provider {
-	provider: any;
+	provider?: BaseProvider;
 	multicallAddress: string;
 
 	constructor() {
-		this.provider = null;
 		this.multicallAddress = getAddress(1);
 	}
 
-	async init(provider: any) {
+	async init(provider: BaseProvider) {
 		this.provider = provider;
 		const network = await provider.getNetwork();
 		this.multicallAddress = getAddress(network.chainId);
@@ -24,11 +25,12 @@ export default class Provider {
 		return getEthBalance(address, this.multicallAddress);
 	}
 
-	async all(calls: any[]) {
+	async all(calls: Call[]) {
 		if (!this.provider) {
 			console.error('Provider should be initialized before use.');
 		}
-		return await callAll(calls, this.multicallAddress, this.provider);
+		const provider = this.provider as BaseProvider;
+		return await callAll(calls, this.multicallAddress, provider);
 	}
 }
 
