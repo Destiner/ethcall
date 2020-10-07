@@ -1,8 +1,8 @@
-const { ethers } = require('ethers');
-const sha3 = require('js-sha3');
+import { ethers } from 'ethers';
+import * as sha3 from 'js-sha3';
 
-class Abi {
-	static encode(name, inputs, params) {
+export default class Abi {
+	static encode(name: string, inputs: any[], params: any[]) {
 		const functionSignature = getFunctionSignature(name, inputs);
 		const functionHash = sha3.keccak256(functionSignature);
 		const functionData = functionHash.substring(0, 8);
@@ -13,22 +13,22 @@ class Abi {
 		return inputData;
 	}
 
-	static decode(outputs, data) {
+	static decode(outputs: any[], data: string) {
 		const abiCoder = new ethers.utils.AbiCoder();
 		const params = abiCoder.decode(outputs, data);
 		return params;
 	}
 }
 
-function getFunctionSignature(name, inputs) {
+function getFunctionSignature(name: string, inputs: any[]): string {
 	const types = [];
 	for (const input of inputs) {
-		if (input.type == 'tuple') {
+		if (input.type === 'tuple') {
 			const tupleString = getFunctionSignature('', input.components);
 			types.push(tupleString);
 			continue;
 		}
-		if (input.type == 'tuple[]') {
+		if (input.type === 'tuple[]') {
 			const tupleString = getFunctionSignature('', input.components);
 			const arrayString = `${tupleString}[]`;
 			types.push(arrayString);
@@ -40,5 +40,3 @@ function getFunctionSignature(name, inputs) {
 	const functionSignature = `${name}(${typeString})`;
 	return functionSignature;
 }
-
-module.exports = Abi;

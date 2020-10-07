@@ -1,10 +1,10 @@
-const { ethers } = require('ethers');
+import { ethers } from 'ethers';
 
-const Abi = require('./abi.js');
+import * as multicallAbi from './abi/multicall.json';
 
-const multicallAbi = require('./abi/multicall.json');
+import Abi from './abi';
 
-async function all(calls, multicallAddress, provider) {
+export async function all(calls: any[], multicallAddress: string, provider: any) {
 	const multicall = new ethers.Contract(multicallAddress, multicallAbi, provider);
 	const callRequests = calls.map(call => {
 		const callData = Abi.encode(call.name, call.inputs, call.params);
@@ -20,14 +20,10 @@ async function all(calls, multicallAddress, provider) {
 		const outputs = calls[i].outputs;
 		const returnData = response.returnData[i];
 		const params = Abi.decode(outputs, returnData);
-		const result = outputs.length == 1
+		const result = outputs.length === 1
 			? params[0]
 			: params;
 		callResult.push(result);
 	}
 	return callResult;
 }
-
-module.exports = {
-	all,
-};

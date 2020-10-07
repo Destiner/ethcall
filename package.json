@@ -2,8 +2,11 @@
   "name": "ethcall",
   "version": "2.1.0",
   "description": "ethers.js-compatible wrapper around Multicall",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "author": "Timur Badretdinov <destinerx@gmail.com>",
+  "scripts": {
+    "build": "tsc"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/Destiner/ethcall.git"
@@ -12,5 +15,8 @@
   "dependencies": {
     "ethers": "^4.0.43",
     "js-sha3": "^0.8.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.3"
   }
 }
