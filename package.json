@@ -1,11 +1,12 @@
 {
   "name": "ethcall",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "ethers.js-compatible wrapper around Multicall",
   "main": "lib/index.js",
   "author": "Timur Badretdinov <destinerx@gmail.com>",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
