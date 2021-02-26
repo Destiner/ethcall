@@ -15,7 +15,7 @@ export interface Call {
 	params: any[];
 }
 
-export async function all(calls: Call[], multicallAddress: string, provider: BaseProvider) {
+export async function all(provider: BaseProvider, multicallAddress: string, calls: Call[], block?: number) {
 	const multicall = new Contract(multicallAddress, multicallAbi, provider);
 	const callRequests = calls.map(call => {
 		const callData = Abi.encode(call.name, call.inputs, call.params);
@@ -24,7 +24,10 @@ export async function all(calls: Call[], multicallAddress: string, provider: Bas
 			callData,
 		};
 	});
-	const response = await multicall.aggregate(callRequests);
+	const overrides = {
+		blockTag: block,
+	};
+	const response = await multicall.aggregate(callRequests, overrides);
 	const callCount = calls.length;
 	const callResult = [];
 	for (let i = 0; i < callCount; i++) {
