@@ -19,7 +19,7 @@ export default class Provider {
 		this.provider = provider;
 		const network = await provider.getNetwork();
 		this.multicallAddress = getAddress(network.chainId);
-		this.multicallAddress = getMulticall2Address(network.chainId);
+		this.multicall2Address = getMulticall2Address(network.chainId);
 	}
 
 	/**
