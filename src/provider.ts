@@ -15,11 +15,11 @@ export default class Provider {
 		this.multicall2Address = getMulticall2Address(DEFAULT_CHAIN_ID);
 	}
 
-	async init(provider: BaseProvider, multicallAddress?: string, multicall2Address?: string) {
-		const network = await provider.getNetwork();
+	async init(provider: BaseProvider) {
 		this.provider = provider;
-		this.multicallAddress = multicallAddress ?? getAddress(network.chainId);
-		this.multicallAddress = multicall2Address ?? getMulticall2Address(network.chainId);
+		const network = await provider.getNetwork();
+		this.multicallAddress = getAddress(network.chainId);
+		this.multicallAddress = getMulticall2Address(network.chainId);
 	}
 
 	/**
