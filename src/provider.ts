@@ -66,10 +66,6 @@ export default class Provider {
 	}
 }
 
-/**
- * Gets the address of Multicall contract on the network with the given chain ID
- * @param chainId  Chain ID of the network that has an instance of Multicall contract
- */
 function getAddress(chainId: number): string {
 	const addressMap: Record<number, string> = {
 		1: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
@@ -83,11 +79,6 @@ function getAddress(chainId: number): string {
 	return addressMap[chainId];
 }
 
-/**
- * Gets the address of Multicall2 contract on the network with the given chain ID.
- * For more details on Multicall2, please refer to https://github.com/makerdao/multicall
- * @param chainId  Chain ID of the network that has an instance of Multicall2 contract
- */
 function getMulticall2Address(chainId: number): string {
 	const addressMap: Record<number, string> = {
 		1: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',

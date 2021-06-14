@@ -2,7 +2,7 @@
 
 Utility library to make calls to Ethereum blockchain.
 
-Uses MakerDAO's [Multicall2 contract](https://github.com/makerdao/multicall) to make multiple requests in a single HTTP query. Encodes and decodes data automatically.
+Uses MakerDAO's [Multicall contracts](https://github.com/makerdao/multicall) to make multiple requests in a single HTTP query. Encodes and decodes data automatically.
 
 Inspired and powered by [ethers.js](https://github.com/ethers-io/ethers.js/).
 
