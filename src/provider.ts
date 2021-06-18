@@ -36,6 +36,7 @@ export default class Provider {
 function getAddress(chainId: number): string {
 	const addressMap: Record<number, string> = {
 		1: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
+		3: '0x53c43764255c17bd724f74c4ef150724ac50a3ed',
 		4: '0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821',
 		42: '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
 		56: '0xe21a5b299756ee452a6a871ff29852862fc99be9',
