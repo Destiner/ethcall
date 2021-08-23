@@ -1,35 +1,68 @@
 import { BaseProvider } from '@ethersproject/providers';
 
-import { Call, all as callAll } from './call';
+import { Call, all as callAll, tryAll as callTryAll } from './call';
 import { getEthBalance } from './calls';
+
+const DEFAULT_CHAIN_ID = 1;
 
 export default class Provider {
 	provider?: BaseProvider;
 	multicallAddress: string;
+	multicall2Address?: string;
 
 	constructor() {
-		this.multicallAddress = getAddress(1);
+		this.multicallAddress = getAddress(DEFAULT_CHAIN_ID);
+		this.multicall2Address = getMulticall2Address(DEFAULT_CHAIN_ID);
 	}
 
 	async init(provider: BaseProvider) {
 		this.provider = provider;
 		const network = await provider.getNetwork();
 		this.multicallAddress = getAddress(network.chainId);
+		this.multicall2Address = getMulticall2Address(network.chainId);
 	}
 
-	getEthBalance(address: string) {
+	/**
+	 * Makes one call to the multicall contract to retrieve eth balance of the given address.
+	 * @param address  Address of the account you want to look up
+	 * @param multicallAddress	Address of the Multicall instance to use
+	 */
+	getEthBalance(address: string, multicallAddress?: string) {
 		if (!this.provider) {
-			console.error('Provider should be initialized before use.');
+			throw Error('Provider should be initialized before use.');
 		}
 		return getEthBalance(address, this.multicallAddress);
 	}
 
+	/**
+	 * Aggregates multiple calls into one call. Reverts when any of the calls fails. For
+	 * ignoring the success of each call, use {@link tryAll} instead.
+	 * @param calls  Array of Call objects containing information about each read call
+	 * @param block  Block number for this call
+	 */
 	async all(calls: Call[], block?: number) {
 		if (!this.provider) {
-			console.error('Provider should be initialized before use.');
+			throw Error('Provider should be initialized before use.');
 		}
 		const provider = this.provider as BaseProvider;
 		return await callAll(provider, this.multicallAddress, calls, block);
+	}
+
+	/**
+	 * Aggregates multiple calls into one call. If any of the calls fail, it returns a null value
+	 * in place of the failed call's return data.
+	 * @param calls  Array of Call objects containing information about each read call
+	 * @param block  Block number for this call
+	 */
+	async tryAll(calls: Call[], block?: number) {
+		if (!this.provider) {
+			throw Error('Provider should be initialized before use.');
+		}
+		if (!this.multicall2Address) {
+			throw Error("Multicall2 address should be initialized before using tryAll()");
+		}
+		const provider = this.provider as BaseProvider;
+		return await callTryAll(provider, this.multicall2Address, calls, block);
 	}
 }
 
@@ -51,6 +84,18 @@ function getAddress(chainId: number): string {
 		1313161554: '0xa48c67d1c60b8187ecb7c549e8a670419d356994',
 		1666600000: '0xfe4980f62d708c2a84d3929859ea226340759320',
 	};
-	const address = addressMap[chainId];
-	return address;
+	return addressMap[chainId];
+}
+
+function getMulticall2Address(chainId: number): string {
+	const addressMap: Record<number, string> = {
+		1: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
+		4: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
+		5: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
+		42: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
+		56: '0x4c6bb7c24b6f3dfdfb548e54b7c5ea4cb52a0069',
+		100: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
+		137: '0xf43a7be1b284aa908cdfed8b3e286961956b4d2c',
+	};
+	return addressMap[chainId];
 }
