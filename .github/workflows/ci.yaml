@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  run:
+    name: Run
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Clean install
+      run: npm ci
+
+    - name: Lint
+      run: npm run lint
+
+    - name: Build
+      uses: npm run build
