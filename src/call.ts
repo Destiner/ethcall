@@ -1,10 +1,9 @@
 import { Contract } from '@ethersproject/contracts';
 import { BaseProvider } from '@ethersproject/providers';
 
+import Abi from './abi';
 import * as multicallAbi from './abi/multicall.json';
 import * as multicall2Abi from './abi/multicall2.json';
-
-import Abi from './abi';
 
 export interface Call {
 	contract: {
