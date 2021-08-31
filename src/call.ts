@@ -21,9 +21,14 @@ export interface Result {
 	returnData: any;
 }
 
-export async function all(provider: BaseProvider, multicallAddress: string, calls: Call[], block?: number) {
+export async function all(
+	provider: BaseProvider,
+	multicallAddress: string,
+	calls: Call[],
+	block?: number,
+) {
 	const multicall = new Contract(multicallAddress, multicallAbi, provider);
-	const callRequests = calls.map(call => {
+	const callRequests = calls.map((call) => {
 		const callData = Abi.encode(call.name, call.inputs, call.params);
 		return {
 			target: call.contract.address,
@@ -40,17 +45,20 @@ export async function all(provider: BaseProvider, multicallAddress: string, call
 		const outputs = calls[i].outputs;
 		const returnData = response.returnData[i];
 		const params = Abi.decode(outputs, returnData);
-		const result = outputs.length === 1
-			? params[0]
-			: params;
+		const result = outputs.length === 1 ? params[0] : params;
 		callResult.push(result);
 	}
 	return callResult;
 }
 
-export async function tryAll(provider: BaseProvider, multicall2Address: string, calls: Call[], block?: number) {
+export async function tryAll(
+	provider: BaseProvider,
+	multicall2Address: string,
+	calls: Call[],
+	block?: number,
+) {
 	const multicall2 = new Contract(multicall2Address, multicall2Abi, provider);
-	const callRequests = calls.map(call => {
+	const callRequests = calls.map((call) => {
 		const callData = Abi.encode(call.name, call.inputs, call.params);
 		return {
 			target: call.contract.address,
@@ -60,7 +68,11 @@ export async function tryAll(provider: BaseProvider, multicall2Address: string, 
 	const overrides = {
 		blockTag: block,
 	};
-	const response: Result[] = await multicall2.tryAggregate(false, callRequests, overrides);
+	const response: Result[] = await multicall2.tryAggregate(
+		false,
+		callRequests,
+		overrides,
+	);
 	const callCount = calls.length;
 	const callResult = [];
 	for (let i = 0; i < callCount; i++) {
@@ -70,13 +82,9 @@ export async function tryAll(provider: BaseProvider, multicall2Address: string, 
 			callResult.push(null);
 		} else {
 			const params = Abi.decode(outputs, result.returnData);
-			const data = outputs.length === 1
-				? params[0]
-				: params;
+			const data = outputs.length === 1 ? params[0] : params;
 			callResult.push(data);
 		}
 	}
 	return callResult;
 }
-
-

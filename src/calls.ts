@@ -1,5 +1,4 @@
 import * as multicallAbi from './abi/multicall.json';
-
 import Contract from './contract';
 
 export function getEthBalance(address: string, multicallAddress: string) {

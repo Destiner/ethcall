@@ -59,7 +59,9 @@ export default class Provider {
 			throw Error('Provider should be initialized before use.');
 		}
 		if (!this.multicall2Address) {
-			throw Error("Multicall2 address should be initialized before using tryAll()");
+			throw Error(
+				'Multicall2 address should be initialized before using tryAll()',
+			);
 		}
 		const provider = this.provider as BaseProvider;
 		return await callTryAll(provider, this.multicall2Address, calls, block);
