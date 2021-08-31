@@ -1,0 +1,47 @@
+{
+	"env": {
+		"browser": false,
+		"es6": true
+	},
+	"plugins": ["import", "eslint-plugin-prettier"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:import/errors",
+		"plugin:import/warnings",
+		"plugin:import/typescript",
+		"plugin:@typescript-eslint/recommended"
+	],
+	"globals": {
+		"Atomics": "readonly",
+		"SharedArrayBuffer": "readonly"
+	},
+	"parserOptions": {
+		"parser": "@typescript-eslint/parser",
+		"ecmaVersion": 2020,
+		"sourceType": "module"
+	},
+	"rules": {
+		"indent": ["error", "tab"],
+		"linebreak-style": ["error", "unix"],
+		"quotes": ["error", "single", { "avoidEscape": true }],
+		"semi": ["error", "always"],
+		"comma-dangle": ["error", "always-multiline"],
+		"import/first": "error",
+		"import/newline-after-import": "error",
+		"import/no-duplicates": "error",
+		"import/order": [
+			"error",
+			{
+				"newlines-between": "always",
+				"alphabetize": {
+					"order": "asc"
+				}
+			}
+		],
+		"prettier/prettier": "error",
+		"@typescript-eslint/ban-ts-ignore": "off",
+		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/no-use-before-define": "off",
+		"@typescript-eslint/explicit-module-boundary-types": "off"
+	}
+}
