@@ -19,14 +19,18 @@ export default class Contract {
 			const name = callFunction.name;
 			const getCall = makeCallFunction(this, name);
 			if (!this[name]) {
-				defineReadOnly(this, name, getCall);
+				Object.defineProperty(this, name, {
+					enumerable: true,
+					value: getCall,
+					writable: false,
+				});
 			}
 		}
 	}
 }
 
 function makeCallFunction(contract: Contract, name: string) {
-	return function (...params: any[]): Call {
+	return (...params: any[]): Call => {
 		const address = contract.address;
 		const inputs = contract.functions.find((f: any) => f.name === name).inputs;
 		const outputs = contract.functions.find(
@@ -42,12 +46,4 @@ function makeCallFunction(contract: Contract, name: string) {
 			params,
 		};
 	};
-}
-
-function defineReadOnly(object: any, name: string, value: any) {
-	Object.defineProperty(object, name, {
-		enumerable: true,
-		value: value,
-		writable: false,
-	});
 }
