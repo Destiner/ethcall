@@ -10,8 +10,8 @@ export interface Call {
 	contract: {
 		address: string;
 	};
-	name: string
-	inputs: any[]
+	name: string;
+	inputs: any[];
 	outputs: any[];
 	params: any[];
 }
