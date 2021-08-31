@@ -27,7 +27,7 @@ export default class Provider {
 	 * @param address  Address of the account you want to look up
 	 * @param multicallAddress	Address of the Multicall instance to use
 	 */
-	getEthBalance(address: string, multicallAddress?: string) {
+	getEthBalance(address: string) {
 		if (!this.provider) {
 			throw Error('Provider should be initialized before use.');
 		}
