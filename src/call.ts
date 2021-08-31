@@ -1,3 +1,4 @@
+import { JsonFragmentType, Result } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { BaseProvider } from '@ethersproject/providers';
 
@@ -10,14 +11,14 @@ export interface Call {
 		address: string;
 	};
 	name: string;
-	inputs: any[];
-	outputs: any[];
+	inputs: JsonFragmentType[];
+	outputs: JsonFragmentType[];
 	params: any[];
 }
 
-export interface Result {
+export interface CallResult {
 	success: boolean;
-	returnData: any;
+	returnData: string;
 }
 
 export async function all(
@@ -39,7 +40,7 @@ export async function all(
 	};
 	const response = await multicall.aggregate(callRequests, overrides);
 	const callCount = calls.length;
-	const callResult = [];
+	const callResult: Result[] = [];
 	for (let i = 0; i < callCount; i++) {
 		const outputs = calls[i].outputs;
 		const returnData = response.returnData[i];
@@ -67,13 +68,13 @@ export async function tryAll(
 	const overrides = {
 		blockTag: block,
 	};
-	const response: Result[] = await multicall2.tryAggregate(
+	const response: CallResult[] = await multicall2.tryAggregate(
 		false,
 		callRequests,
 		overrides,
 	);
 	const callCount = calls.length;
-	const callResult = [];
+	const callResult: (Result | null)[] = [];
 	for (let i = 0; i < callCount; i++) {
 		const outputs = calls[i].outputs;
 		const result = response[i];

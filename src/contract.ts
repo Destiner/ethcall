@@ -1,12 +1,14 @@
+import { JsonFragment } from '@ethersproject/abi';
+
 import { Call } from './call';
 
 export default class Contract {
 	address: string;
-	abi: any[];
-	functions: any[];
+	abi: JsonFragment[];
+	functions: JsonFragment[];
 	[key: string]: Call | any;
 
-	constructor(address: string, abi: any[]) {
+	constructor(address: string, abi: JsonFragment[]) {
 		this.address = address;
 		this.abi = abi;
 
@@ -17,6 +19,9 @@ export default class Contract {
 
 		for (const callFunction of callFunctions) {
 			const name = callFunction.name;
+			if (!name) {
+				continue;
+			}
 			const getCall = makeCallFunction(this, name);
 			if (!this[name]) {
 				Object.defineProperty(this, name, {
@@ -32,10 +37,9 @@ export default class Contract {
 function makeCallFunction(contract: Contract, name: string) {
 	return (...params: any[]): Call => {
 		const address = contract.address;
-		const inputs = contract.functions.find((f: any) => f.name === name).inputs;
-		const outputs = contract.functions.find(
-			(f: any) => f.name === name,
-		).outputs;
+		const func = contract.functions.find((f) => f.name === name);
+		const inputs = func?.inputs || [];
+		const outputs = func?.outputs || [];
 		return {
 			contract: {
 				address,

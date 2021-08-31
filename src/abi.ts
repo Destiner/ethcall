@@ -1,8 +1,13 @@
-import { defaultAbiCoder } from '@ethersproject/abi';
+import {
+	JsonFragmentType,
+	ParamType,
+	defaultAbiCoder,
+} from '@ethersproject/abi';
 import * as sha3 from 'js-sha3';
 
 export default class Abi {
-	static encode(name: string, inputs: any[], params: any[]) {
+	static encode(name: string, jsonInputs: JsonFragmentType[], params: any[]) {
+		const inputs = jsonInputs.map((input) => ParamType.fromObject(input));
 		const functionSignature = getFunctionSignature(name, inputs);
 		const functionHash = sha3.keccak256(functionSignature);
 		const functionData = functionHash.substring(0, 8);
@@ -12,14 +17,15 @@ export default class Abi {
 		return inputData;
 	}
 
-	static decode(outputs: any[], data: string) {
+	static decode(jsonOutputs: JsonFragmentType[], data: string) {
+		const outputs = jsonOutputs.map((output) => ParamType.fromObject(output));
 		const params = defaultAbiCoder.decode(outputs, data);
 		return params;
 	}
 }
 
-function getFunctionSignature(name: string, inputs: any[]): string {
-	const types = [];
+function getFunctionSignature(name: string, inputs: ParamType[]): string {
+	const types: string[] = [];
 	for (const input of inputs) {
 		if (input.type === 'tuple') {
 			const tupleString = getFunctionSignature('', input.components);
