@@ -7,19 +7,19 @@ const DEFAULT_CHAIN_ID = 1;
 
 export default class Provider {
 	provider?: BaseProvider;
-	multicallAddress: string;
+	multicallAddress?: string;
 	multicall2Address?: string;
 
 	constructor() {
-		this.multicallAddress = getAddress(DEFAULT_CHAIN_ID);
-		this.multicall2Address = getMulticall2Address(DEFAULT_CHAIN_ID);
+		this.multicallAddress = getMulticall(DEFAULT_CHAIN_ID);
+		this.multicall2Address = getMulticall2(DEFAULT_CHAIN_ID);
 	}
 
 	async init(provider: BaseProvider) {
 		this.provider = provider;
 		const network = await provider.getNetwork();
-		this.multicallAddress = getAddress(network.chainId);
-		this.multicall2Address = getMulticall2Address(network.chainId);
+		this.multicallAddress = getMulticall(network.chainId);
+		this.multicall2Address = getMulticall2(network.chainId);
 	}
 
 	/**
@@ -30,6 +30,9 @@ export default class Provider {
 	getEthBalance(address: string) {
 		if (!this.provider) {
 			throw Error('Provider should be initialized before use.');
+		}
+		if (!this.multicallAddress) {
+			throw Error('Multicall contract is not available on this network.');
 		}
 		return getEthBalance(address, this.multicallAddress);
 	}
@@ -43,6 +46,9 @@ export default class Provider {
 	async all(calls: Call[], block?: number) {
 		if (!this.provider) {
 			throw Error('Provider should be initialized before use.');
+		}
+		if (!this.multicallAddress) {
+			throw Error('Multicall contract is not available on this network.');
 		}
 		const provider = this.provider as BaseProvider;
 		return await callAll(provider, this.multicallAddress, calls, block);
@@ -59,16 +65,14 @@ export default class Provider {
 			throw Error('Provider should be initialized before use.');
 		}
 		if (!this.multicall2Address) {
-			throw Error(
-				'Multicall2 address should be initialized before using tryAll()',
-			);
+			throw Error('Multicall2 contract is not available on this network.');
 		}
 		const provider = this.provider as BaseProvider;
 		return await callTryAll(provider, this.multicall2Address, calls, block);
 	}
 }
 
-function getAddress(chainId: number): string {
+function getMulticall(chainId: number): string {
 	const addressMap: Record<number, string> = {
 		1: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
 		3: '0x53c43764255c17bd724f74c4ef150724ac50a3ed',
@@ -89,7 +93,7 @@ function getAddress(chainId: number): string {
 	return addressMap[chainId];
 }
 
-function getMulticall2Address(chainId: number): string {
+function getMulticall2(chainId: number): string {
 	const addressMap: Record<number, string> = {
 		1: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
 		4: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
