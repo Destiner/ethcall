@@ -40,7 +40,7 @@ export async function all(
 	};
 	const response = await multicall.aggregate(callRequests, overrides);
 	const callCount = calls.length;
-	const callResult: Result[] = [];
+	const callResult: any[] = [];
 	for (let i = 0; i < callCount; i++) {
 		const outputs = calls[i].outputs;
 		const returnData = response.returnData[i];
@@ -74,7 +74,7 @@ export async function tryAll(
 		overrides,
 	);
 	const callCount = calls.length;
-	const callResult: (Result | null)[] = [];
+	const callResult: any[] = [];
 	for (let i = 0; i < callCount; i++) {
 		const outputs = calls[i].outputs;
 		const result = response[i];
