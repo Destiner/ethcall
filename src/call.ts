@@ -1,4 +1,4 @@
-import { JsonFragmentType, Result } from '@ethersproject/abi';
+import { JsonFragmentType } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { BaseProvider } from '@ethersproject/providers';
 
