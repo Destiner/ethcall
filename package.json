@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "author": "Timur Badretdinov <destinerx@gmail.com>",
   "scripts": {
-    "lint": "eslint \"src/**/*.ts\"",
+    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
     "build": "tsc",
     "prepare": "npm run build"
   },
