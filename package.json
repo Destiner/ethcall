@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "author": "Timur Badretdinov <destinerx@gmail.com>",
   "scripts": {
+    "test": "mocha",
     "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
     "build": "tsc",
     "prepare": "npm run build"
