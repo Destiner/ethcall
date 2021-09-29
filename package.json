@@ -19,6 +19,7 @@
     "@ethersproject/contracts": "^5.0.0",
     "@ethersproject/providers": "^5.0.0",
     "@types/node": "^14.11.5",
+    "earljs": "^0.1.10",
     "js-sha3": "^0.8.0"
   },
   "devDependencies": {
