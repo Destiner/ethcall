@@ -1,0 +1,30 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "bool",
+				"name": "requireSuccess",
+				"type": "bool"
+			},
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes",
+						"name": "callData",
+						"type": "bytes"
+					}
+				],
+				"internalType": "struct DeploylessMulticall2.Call[]",
+				"name": "calls",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	}
+]
