@@ -1,10 +1,23 @@
-import { JsonFragmentType } from '@ethersproject/abi';
+import { JsonFragment, JsonFragmentType } from '@ethersproject/abi';
+import { hexConcat } from '@ethersproject/bytes';
 import { Contract } from '@ethersproject/contracts';
 import { BaseProvider } from '@ethersproject/providers';
 
 import Abi from './abi';
+import * as deploylessMulticallAbi from './abi/deploylessMulticall.json';
+import * as deploylessMulticall2Abi from './abi/deploylessMulticall2.json';
 import * as multicallAbi from './abi/multicall.json';
 import * as multicall2Abi from './abi/multicall2.json';
+import {
+	Multicall,
+	deploylessMulticall2Bytecode,
+	deploylessMulticallBytecode,
+} from './multicall';
+
+interface CallRequest {
+	target: string;
+	callData: string;
+}
 
 export interface Call {
 	contract: {
@@ -23,11 +36,11 @@ export interface CallResult {
 
 export async function all(
 	provider: BaseProvider,
-	multicallAddress: string,
+	multicall: Multicall,
 	calls: Call[],
 	block?: number,
 ) {
-	const multicall = new Contract(multicallAddress, multicallAbi, provider);
+	const contract = new Contract(multicall.address, multicallAbi, provider);
 	const callRequests = calls.map((call) => {
 		const callData = Abi.encode(call.name, call.inputs, call.params);
 		return {
@@ -38,7 +51,10 @@ export async function all(
 	const overrides = {
 		blockTag: block,
 	};
-	const response = await multicall.aggregate(callRequests, overrides);
+	const response =
+		block && block < multicall.block
+			? await callDeployless(provider, callRequests, block)
+			: await contract.aggregate(callRequests, overrides);
 	const callCount = calls.length;
 	const callResult: any[] = [];
 	for (let i = 0; i < callCount; i++) {
@@ -53,11 +69,11 @@ export async function all(
 
 export async function tryAll(
 	provider: BaseProvider,
-	multicall2Address: string,
+	multicall2: Multicall,
 	calls: Call[],
 	block?: number,
 ) {
-	const multicall2 = new Contract(multicall2Address, multicall2Abi, provider);
+	const contract = new Contract(multicall2.address, multicall2Abi, provider);
 	const callRequests = calls.map((call) => {
 		const callData = Abi.encode(call.name, call.inputs, call.params);
 		return {
@@ -68,11 +84,10 @@ export async function tryAll(
 	const overrides = {
 		blockTag: block,
 	};
-	const response: CallResult[] = await multicall2.tryAggregate(
-		false,
-		callRequests,
-		overrides,
-	);
+	const response: CallResult[] =
+		block && block < multicall2.block
+			? await callDeployless2(provider, callRequests, block)
+			: await contract.tryAggregate(false, callRequests, overrides);
 	const callCount = calls.length;
 	const callResult: any[] = [];
 	for (let i = 0; i < callCount; i++) {
@@ -87,4 +102,55 @@ export async function tryAll(
 		}
 	}
 	return callResult;
+}
+
+async function callDeployless(
+	provider: BaseProvider,
+	callRequests: CallRequest[],
+	block?: number,
+) {
+	const inputAbi: JsonFragment[] = deploylessMulticallAbi;
+	const constructor = inputAbi.find((f) => f.type === 'constructor');
+	const inputs = constructor?.inputs || [];
+	const args = Abi.encodeConstructor(inputs, [callRequests]);
+	const data = hexConcat([deploylessMulticallBytecode, args]);
+	const callData = await provider.call(
+		{
+			data,
+		},
+		block,
+	);
+	const outputAbi: JsonFragment[] = multicallAbi;
+	const outputFunc = outputAbi.find(
+		(f) => f.type === 'function' && f.name === 'aggregate',
+	);
+	const outputs = outputFunc?.outputs || [];
+	const response = Abi.decode(outputs, callData);
+	return response;
+}
+
+async function callDeployless2(
+	provider: BaseProvider,
+	callRequests: CallRequest[],
+	block?: number,
+) {
+	const inputAbi: JsonFragment[] = deploylessMulticall2Abi;
+	const constructor = inputAbi.find((f) => f.type === 'constructor');
+	const inputs = constructor?.inputs || [];
+	const args = Abi.encodeConstructor(inputs, [false, callRequests]);
+	const data = hexConcat([deploylessMulticall2Bytecode, args]);
+	const callData = await provider.call(
+		{
+			data,
+		},
+		block,
+	);
+	const outputAbi: JsonFragment[] = multicall2Abi;
+	const outputFunc = outputAbi.find(
+		(f) => f.type === 'function' && f.name === 'tryAggregate',
+	);
+	const outputs = outputFunc?.outputs || [];
+	// Note "[0]": low-level calls don't automatically unwrap tuple output
+	const response = Abi.decode(outputs, callData)[0];
+	return response as CallResult[];
 }

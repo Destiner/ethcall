@@ -51,7 +51,7 @@ export default class Provider {
 			throw Error('Multicall contract is not available on this network.');
 		}
 		const provider = this.provider as BaseProvider;
-		return await callAll(provider, this.multicall.address, calls, block);
+		return await callAll(provider, this.multicall, calls, block);
 	}
 
 	/**
@@ -68,6 +68,6 @@ export default class Provider {
 			throw Error('Multicall2 contract is not available on this network.');
 		}
 		const provider = this.provider as BaseProvider;
-		return await callTryAll(provider, this.multicall2.address, calls, block);
+		return await callTryAll(provider, this.multicall2, calls, block);
 	}
 }
