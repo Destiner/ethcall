@@ -2,25 +2,25 @@ import { BaseProvider } from '@ethersproject/providers';
 
 import { Call, all as callAll, tryAll as callTryAll } from './call';
 import { getEthBalance } from './calls';
-import { getMulticall, getMulticall2 } from './multicall';
+import { Multicall, getMulticall, getMulticall2 } from './multicall';
 
 const DEFAULT_CHAIN_ID = 1;
 
 export default class Provider {
 	provider?: BaseProvider;
-	multicallAddress?: string;
-	multicall2Address?: string;
+	multicall?: Multicall;
+	multicall2?: Multicall;
 
 	constructor() {
-		this.multicallAddress = getMulticall(DEFAULT_CHAIN_ID);
-		this.multicall2Address = getMulticall2(DEFAULT_CHAIN_ID);
+		this.multicall = getMulticall(DEFAULT_CHAIN_ID);
+		this.multicall2 = getMulticall2(DEFAULT_CHAIN_ID);
 	}
 
 	async init(provider: BaseProvider) {
 		this.provider = provider;
 		const network = await provider.getNetwork();
-		this.multicallAddress = getMulticall(network.chainId);
-		this.multicall2Address = getMulticall2(network.chainId);
+		this.multicall = getMulticall(network.chainId);
+		this.multicall2 = getMulticall2(network.chainId);
 	}
 
 	/**
@@ -31,10 +31,10 @@ export default class Provider {
 		if (!this.provider) {
 			throw Error('Provider should be initialized before use.');
 		}
-		if (!this.multicallAddress) {
+		if (!this.multicall) {
 			throw Error('Multicall contract is not available on this network.');
 		}
-		return getEthBalance(address, this.multicallAddress);
+		return getEthBalance(address, this.multicall.address);
 	}
 
 	/**
@@ -47,11 +47,11 @@ export default class Provider {
 		if (!this.provider) {
 			throw Error('Provider should be initialized before use.');
 		}
-		if (!this.multicallAddress) {
+		if (!this.multicall) {
 			throw Error('Multicall contract is not available on this network.');
 		}
 		const provider = this.provider as BaseProvider;
-		return await callAll(provider, this.multicallAddress, calls, block);
+		return await callAll(provider, this.multicall.address, calls, block);
 	}
 
 	/**
@@ -64,10 +64,10 @@ export default class Provider {
 		if (!this.provider) {
 			throw Error('Provider should be initialized before use.');
 		}
-		if (!this.multicall2Address) {
+		if (!this.multicall2) {
 			throw Error('Multicall2 contract is not available on this network.');
 		}
 		const provider = this.provider as BaseProvider;
-		return await callTryAll(provider, this.multicall2Address, calls, block);
+		return await callTryAll(provider, this.multicall2.address, calls, block);
 	}
 }
