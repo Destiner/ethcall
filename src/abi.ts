@@ -17,6 +17,12 @@ export default class Abi {
 		return inputData;
 	}
 
+	static encodeConstructor(jsonInputs: JsonFragmentType[], params: any[]) {
+		const inputs = jsonInputs.map((input) => ParamType.fromObject(input));
+		const data = defaultAbiCoder.encode(inputs, params);
+		return data;
+	}
+
 	static decode(jsonOutputs: JsonFragmentType[], data: string) {
 		const outputs = jsonOutputs.map((output) => ParamType.fromObject(output));
 		const params = defaultAbiCoder.decode(outputs, data);
