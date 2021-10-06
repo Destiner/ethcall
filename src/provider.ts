@@ -26,7 +26,6 @@ export default class Provider {
 	/**
 	 * Makes one call to the multicall contract to retrieve eth balance of the given address.
 	 * @param address  Address of the account you want to look up
-	 * @param multicallAddress	Address of the Multicall instance to use
 	 */
 	getEthBalance(address: string) {
 		if (!this.provider) {
