@@ -124,6 +124,14 @@ export function getMulticall2(chainId: number): Multicall {
 			address: '0xf43a7be1b284aa908cdfed8b3e286961956b4d2c',
 			block: 0,
 		},
+		250: {
+			address: '0x470ADB45f5a9ac3550bcFFaD9D990Bf7e2e941c9',
+			block: 0,
+		},
+		1337: {
+			address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
+			block: 0,
+		},
 	};
 	return addressMap[chainId];
 }
