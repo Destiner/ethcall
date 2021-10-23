@@ -8,8 +8,8 @@ const DEFAULT_CHAIN_ID = 1;
 
 export default class Provider {
 	provider?: BaseProvider;
-	multicall?: Multicall;
-	multicall2?: Multicall;
+	multicall: Multicall | null;
+	multicall2: Multicall | null;
 
 	constructor() {
 		this.multicall = getMulticall(DEFAULT_CHAIN_ID);
@@ -34,7 +34,7 @@ export default class Provider {
 		if (!this.multicall) {
 			throw Error('Multicall contract is not available on this network.');
 		}
-		return getEthBalance(address, this.multicall.address);
+		return getEthBalance(address, this.multicall?.address);
 	}
 
 	/**
@@ -48,7 +48,9 @@ export default class Provider {
 			throw Error('Provider should be initialized before use.');
 		}
 		if (!this.multicall) {
-			throw Error('Multicall contract is not available on this network.');
+			console.log(
+				'Multicall contract is not available on this network, using deployless version.',
+			);
 		}
 		const provider = this.provider as BaseProvider;
 		return await callAll(provider, this.multicall, calls, block);
@@ -65,7 +67,9 @@ export default class Provider {
 			throw Error('Provider should be initialized before use.');
 		}
 		if (!this.multicall2) {
-			throw Error('Multicall2 contract is not available on this network.');
+			console.log(
+				'Multicall2 contract is not available on this network, using deployless version.',
+			);
 		}
 		const provider = this.provider as BaseProvider;
 		return await callTryAll(provider, this.multicall2, calls, block);

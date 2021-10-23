@@ -4,8 +4,8 @@ export interface Multicall {
 	block: number;
 }
 
-export function getMulticall(chainId: number): Multicall {
-	const addressMap: Record<number, Multicall> = {
+export function getMulticall(chainId: number) {
+	const addressMap: Record<number, Multicall | null> = {
 		1: {
 			address: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
 			block: 7929876,
@@ -94,8 +94,8 @@ export function getMulticall(chainId: number): Multicall {
 	return addressMap[chainId];
 }
 
-export function getMulticall2(chainId: number): Multicall {
-	const addressMap: Record<number, Multicall> = {
+export function getMulticall2(chainId: number) {
+	const addressMap: Record<number, Multicall | null> = {
 		1: {
 			address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
 			block: 12336033,

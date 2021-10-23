@@ -36,11 +36,13 @@ export interface CallResult {
 
 export async function all(
 	provider: BaseProvider,
-	multicall: Multicall,
+	multicall: Multicall | null,
 	calls: Call[],
 	block?: number,
 ) {
-	const contract = new Contract(multicall.address, multicallAbi, provider);
+	const contract = multicall
+		? new Contract(multicall.address, multicallAbi, provider)
+		: null;
 	const callRequests = calls.map((call) => {
 		const callData = Abi.encode(call.name, call.inputs, call.params);
 		return {
@@ -52,9 +54,9 @@ export async function all(
 		blockTag: block,
 	};
 	const response =
-		block && block < multicall.block
-			? await callDeployless(provider, callRequests, block)
-			: await contract.aggregate(callRequests, overrides);
+		contract && (!block || (multicall && block > multicall.block))
+			? await contract.aggregate(callRequests, overrides)
+			: await callDeployless(provider, callRequests, block);
 	const callCount = calls.length;
 	const callResult: any[] = [];
 	for (let i = 0; i < callCount; i++) {
@@ -69,11 +71,13 @@ export async function all(
 
 export async function tryAll(
 	provider: BaseProvider,
-	multicall2: Multicall,
+	multicall2: Multicall | null,
 	calls: Call[],
 	block?: number,
 ) {
-	const contract = new Contract(multicall2.address, multicall2Abi, provider);
+	const contract = multicall2
+		? new Contract(multicall2.address, multicall2Abi, provider)
+		: null;
 	const callRequests = calls.map((call) => {
 		const callData = Abi.encode(call.name, call.inputs, call.params);
 		return {
@@ -85,9 +89,9 @@ export async function tryAll(
 		blockTag: block,
 	};
 	const response: CallResult[] =
-		block && block < multicall2.block
-			? await callDeployless2(provider, callRequests, block)
-			: await contract.tryAggregate(false, callRequests, overrides);
+		contract && (!block || (multicall2 && block > multicall2.block))
+			? await contract.tryAggregate(false, callRequests, overrides)
+			: await callDeployless2(provider, callRequests, block);
 	const callCount = calls.length;
 	const callResult: any[] = [];
 	for (let i = 0; i < callCount; i++) {
