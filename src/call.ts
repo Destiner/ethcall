@@ -34,7 +34,7 @@ export interface CallResult {
 	returnData: string;
 }
 
-export async function all(
+export async function all<T>(
 	provider: BaseProvider,
 	multicall: Multicall | null,
 	calls: Call[],
@@ -58,7 +58,7 @@ export async function all(
 			? await contract.aggregate(callRequests, overrides)
 			: await callDeployless(provider, callRequests, block);
 	const callCount = calls.length;
-	const callResult: any[] = [];
+	const callResult: T[] = [];
 	for (let i = 0; i < callCount; i++) {
 		const outputs = calls[i].outputs;
 		const returnData = response.returnData[i];
@@ -69,7 +69,7 @@ export async function all(
 	return callResult;
 }
 
-export async function tryAll(
+export async function tryAll<T>(
 	provider: BaseProvider,
 	multicall2: Multicall | null,
 	calls: Call[],
@@ -93,7 +93,7 @@ export async function tryAll(
 			? await contract.tryAggregate(false, callRequests, overrides)
 			: await callDeployless2(provider, callRequests, block);
 	const callCount = calls.length;
-	const callResult: any[] = [];
+	const callResult: (T | null)[] = [];
 	for (let i = 0; i < callCount; i++) {
 		const outputs = calls[i].outputs;
 		const result = response[i];
