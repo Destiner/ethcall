@@ -28,6 +28,29 @@ describe('ABI', () => {
 		);
 	});
 
+	it('encodes constructor input', () => {
+		expect(Abi.encodeConstructor(ownerFunction.inputs, [])).toEqual('0x');
+		expect(
+			Abi.encodeConstructor(balanceOfFunction.inputs, [
+				'0x1a9c8182c09f50c8318d769245bea52c32be35bc',
+			]),
+		).toEqual(
+			'0x0000000000000000000000001a9c8182c09f50c8318d769245bea52c32be35bc',
+		);
+		expect(
+			Abi.encodeConstructor(swapFunction.inputs, [
+				{
+					inAmount: '250000000',
+					inAsset: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+					outAsset: '0x6b175474e89094c44da98b954eedeac495271d0f',
+				},
+				'1633000000',
+			]),
+		).toEqual(
+			'0x000000000000000000000000000000000000000000000000000000000ee6b280000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb480000000000000000000000006b175474e89094c44da98b954eedeac495271d0f0000000000000000000000000000000000000000000000000000000061559a40',
+		);
+	});
+
 	it('decodes output', () => {
 		expect(
 			Abi.decode(
