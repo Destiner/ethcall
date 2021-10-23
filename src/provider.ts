@@ -43,7 +43,7 @@ export default class Provider {
 	 * @param calls  Array of Call objects containing information about each read call
 	 * @param block  Block number for this call
 	 */
-	async all(calls: Call[], block?: number) {
+	async all<T>(calls: Call[], block?: number) {
 		if (!this.provider) {
 			throw Error('Provider should be initialized before use.');
 		}
@@ -53,7 +53,7 @@ export default class Provider {
 			);
 		}
 		const provider = this.provider as BaseProvider;
-		return await callAll(provider, this.multicall, calls, block);
+		return await callAll<T>(provider, this.multicall, calls, block);
 	}
 
 	/**
@@ -62,7 +62,7 @@ export default class Provider {
 	 * @param calls  Array of Call objects containing information about each read call
 	 * @param block  Block number for this call
 	 */
-	async tryAll(calls: Call[], block?: number) {
+	async tryAll<T>(calls: Call[], block?: number) {
 		if (!this.provider) {
 			throw Error('Provider should be initialized before use.');
 		}
@@ -72,6 +72,6 @@ export default class Provider {
 			);
 		}
 		const provider = this.provider as BaseProvider;
-		return await callTryAll(provider, this.multicall2, calls, block);
+		return await callTryAll<T>(provider, this.multicall2, calls, block);
 	}
 }
