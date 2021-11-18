@@ -4,6 +4,10 @@
   "description": "ethers.js-compatible wrapper around Multicall",
   "main": "lib/src/index.js",
   "author": "Timur Badretdinov <destinerx@gmail.com>",
+  "keywords": [
+    "ethers",
+    "ethereum"
+  ],
   "scripts": {
     "test": "mocha",
     "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
