@@ -23,7 +23,7 @@ export function getMulticall(chainId: number) {
 			block: 743550,
 		},
 		10: {
-			address: '0xe295ad71242373c37c5fda7b57f26f9ea1088afe',
+			address: '0x266557A864680A1401A3506c0eb72934BD13Bf59',
 			block: 0,
 		},
 		25: {
