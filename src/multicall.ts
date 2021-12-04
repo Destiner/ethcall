@@ -56,7 +56,7 @@ export function getMulticall(chainId: number) {
 		},
 		137: {
 			address: '0x35e4aa226ce52e1e59e5e5ec24766007bcbe2e7d',
-			block: 0,
+			block: 12608630,
 		},
 		250: {
 			address: '0xc04d660976c923ddba750341fe5923e47900cf24',
@@ -92,7 +92,7 @@ export function getMulticall(chainId: number) {
 		},
 		80001: {
 			address: '0x08411add0b5aa8ee47563b146743c13b3556c9cc',
-			block: 0,
+			block: 12011090,
 		},
 		1313161554: {
 			address: '0xa48c67d1c60b8187ecb7c549e8a670419d356994',
@@ -134,7 +134,7 @@ export function getMulticall2(chainId: number) {
 		},
 		137: {
 			address: '0xf43a7be1b284aa908cdfed8b3e286961956b4d2c',
-			block: 0,
+			block: 15695723,
 		},
 		250: {
 			address: '0x470ADB45f5a9ac3550bcFFaD9D990Bf7e2e941c9',
