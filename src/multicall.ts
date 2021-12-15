@@ -82,6 +82,10 @@ export function getMulticall(chainId: number) {
 			address: '0x0e14ded9e7965c6446df2e5c528dd1b4e3b4640f',
 			block: 0,
 		},
+		31337: {
+			address: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
+			block: 0,
+		},
 		42161: {
 			address: '0x10126ceb60954bc35049f24e819a380c505f8a0f',
 			block: 0,
@@ -141,6 +145,10 @@ export function getMulticall2(chainId: number) {
 			block: 0,
 		},
 		1337: {
+			address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
+			block: 0,
+		},
+		31337: {
 			address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
 			block: 0,
 		},
