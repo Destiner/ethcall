@@ -52,6 +52,10 @@ async function call() {
 }
 
 call();
-
 ```
 
+## Deployless Multicall
+
+If you query a chain on which Multicall is not deployed, or if you query a historical block before the deployment of the contract, the deployless version will be used instead. In short, deployless Multicall "emulates" the deployed contract and returns the exact same data. Note that you can't query ETH balance using deployless version.
+
+You can read more about deployless Multicall [here](https://insights.magmatic.xyz/posts/deployless-multicall/).
