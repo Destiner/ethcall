@@ -25,8 +25,7 @@
     "@ethersproject/contracts": "^5.0.0",
     "@ethersproject/providers": "^5.0.0",
     "@types/node": "^14.11.5",
-    "abi-coder": "^2.0.3",
-    "js-sha3": "^0.8.0"
+    "abi-coder": "^2.0.3"
   },
   "devDependencies": {
     "@types/mocha": "^9.0.0",
