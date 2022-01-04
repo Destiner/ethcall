@@ -54,17 +54,21 @@ describe('ABI', () => {
 	it('decodes output', () => {
 		expect(
 			Abi.decode(
+				ownerFunction.name,
 				ownerFunction.outputs,
 				'0x000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
 			),
 		).toEqual(['0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48']);
 		expect(
 			Abi.decode(
+				balanceOfFunction.name,
 				balanceOfFunction.outputs,
 				'0x000000000000000000000000000000000000000000000000bb59a27953c60000',
 			).map((a) => a.toString()),
 		).toEqual(['13500000000000000000']);
-		expect(Abi.decode(swapFunction.outputs, '0x')).toEqual([]);
+		expect(Abi.decode(swapFunction.name, swapFunction.outputs, '0x')).toEqual(
+			[],
+		);
 	});
 });
 

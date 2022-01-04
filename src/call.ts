@@ -60,9 +60,10 @@ export async function all<T>(
 	const callCount = calls.length;
 	const callResult: T[] = [];
 	for (let i = 0; i < callCount; i++) {
+		const name = calls[i].name;
 		const outputs = calls[i].outputs;
 		const returnData = response.returnData[i];
-		const params = Abi.decode(outputs, returnData);
+		const params = Abi.decode(name, outputs, returnData);
 		const result = outputs.length === 1 ? params[0] : params;
 		callResult.push(result);
 	}
@@ -95,12 +96,13 @@ export async function tryAll<T>(
 	const callCount = calls.length;
 	const callResult: (T | null)[] = [];
 	for (let i = 0; i < callCount; i++) {
+		const name = calls[i].name;
 		const outputs = calls[i].outputs;
 		const result = response[i];
 		if (!result.success) {
 			callResult.push(null);
 		} else {
-			const params = Abi.decode(outputs, result.returnData);
+			const params = Abi.decode(name, outputs, result.returnData);
 			const data = outputs.length === 1 ? params[0] : params;
 			callResult.push(data);
 		}
@@ -128,8 +130,9 @@ async function callDeployless(
 	const outputFunc = outputAbi.find(
 		(f) => f.type === 'function' && f.name === 'aggregate',
 	);
+	const name = outputFunc?.name || '';
 	const outputs = outputFunc?.outputs || [];
-	const response = Abi.decode(outputs, callData);
+	const response = Abi.decode(name, outputs, callData);
 	return response;
 }
 
@@ -153,8 +156,9 @@ async function callDeployless2(
 	const outputFunc = outputAbi.find(
 		(f) => f.type === 'function' && f.name === 'tryAggregate',
 	);
+	const name = outputFunc?.name || '';
 	const outputs = outputFunc?.outputs || [];
 	// Note "[0]": low-level calls don't automatically unwrap tuple output
-	const response = Abi.decode(outputs, callData)[0];
+	const response = Abi.decode(name, outputs, callData)[0];
 	return response as CallResult[];
 }
