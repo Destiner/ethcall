@@ -9,7 +9,7 @@
     "ethereum"
   ],
   "scripts": {
-    "test": "mocha",
+    "test": "vitest run",
     "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
     "build": "tsc",
     "prepare": "npm run build"
