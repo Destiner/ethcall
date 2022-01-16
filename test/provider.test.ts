@@ -1,5 +1,5 @@
 import { BaseProvider } from '@ethersproject/providers';
-import { expect } from 'earljs';
+import { describe, test, expect } from 'vitest';
 
 import Provider from '../src/provider';
 
@@ -13,20 +13,20 @@ class FakeProvider extends BaseProvider {
 }
 
 describe('Provider', () => {
-	it('throws if provider is not initiated', () => {
+	test('throws if provider is not initiated', () => {
 		const errorMessage = 'Provider should be initialized before use.';
 		const provider = new Provider();
 		expect(() => provider.getEthBalance('')).toThrow(errorMessage);
-		expect(provider.all([])).toBeRejected();
-		expect(provider.tryAll([])).toBeRejected();
+		expect(provider.all([])).rejects.toThrow();
+		expect(provider.tryAll([])).rejects.toThrow();
 	});
 
-	it('throws if Multicall is not available', async () => {
+	test('throws if Multicall is not available', async () => {
 		const errorMessage = 'Multicall contract is not available on this network.';
 		const provider = new Provider();
 		await provider.init(new FakeProvider(0));
 		expect(() => provider.getEthBalance('')).toThrow(errorMessage);
-		expect(provider.all([])).toBeRejected();
-		expect(provider.tryAll([])).toBeRejected();
+		expect(provider.all([])).rejects.toThrow();
+		expect(provider.tryAll([])).rejects.toThrow();
 	});
 });

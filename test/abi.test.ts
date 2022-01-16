@@ -1,9 +1,9 @@
-import { expect } from 'earljs';
+import { describe, test, expect } from 'vitest';
 
 import Abi from '../src/abi';
 
 describe('ABI', () => {
-	it('encodes input', () => {
+	test('encodes input', () => {
 		expect(Abi.encode(ownerFunction.name, ownerFunction.inputs, [])).toEqual(
 			'0x8da5cb5b',
 		);
@@ -28,7 +28,7 @@ describe('ABI', () => {
 		);
 	});
 
-	it('encodes constructor input', () => {
+	test('encodes constructor input', () => {
 		expect(Abi.encodeConstructor(ownerFunction.inputs, [])).toEqual('0x');
 		expect(
 			Abi.encodeConstructor(balanceOfFunction.inputs, [
@@ -51,7 +51,7 @@ describe('ABI', () => {
 		);
 	});
 
-	it('decodes output', () => {
+	test('decodes output', () => {
 		expect(
 			Abi.decode(
 				ownerFunction.name,
