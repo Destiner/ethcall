@@ -153,9 +153,9 @@ export function getMulticall2(chainId: number) {
 			block: 0,
 		},
 		1284: {
-            		address: '0x9256d856A13EB3732d90D88B57F33d0847Fa50bF',
-            		block: 0,
-        	},
+			address: '0x9256d856A13EB3732d90D88B57F33d0847Fa50bF',
+			block: 0,
+		},
 		1337: {
 			address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
 			block: 0,
