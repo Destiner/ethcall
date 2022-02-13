@@ -4,7 +4,7 @@
 		"module": "commonjs",
 		"declaration": true,
 		"outDir": "./lib",
-		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
 		"resolveJsonModule": true,
 		"strict": true
 	},
