@@ -10,7 +10,9 @@
   ],
   "scripts": {
     "test": "vitest run",
-    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "lint:eslint": "eslint \"{src,test}/**/*.ts\"",
+    "lint:prettier": "prettier -c \"{src,test}/**/*.{json,js,ts}\"",
     "build": "tsc",
     "prepare": "npm run build"
   },
