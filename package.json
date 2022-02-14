@@ -2,7 +2,7 @@
   "name": "ethcall",
   "version": "4.3.4",
   "description": "ethers.js-compatible wrapper around Multicall",
-  "main": "lib/src/index.js",
+  "main": "lib/index.js",
   "author": "Timur Badretdinov <destinerx@gmail.com>",
   "keywords": [
     "ethers",
