@@ -4,7 +4,7 @@ Utility library to make calls to Ethereum blockchain.
 
 Uses MakerDAO's [Multicall contracts](https://github.com/makerdao/multicall) to make multiple requests in a single HTTP query. Encodes and decodes data automatically.
 
-Inspired and powered by [ethers.js](https://github.com/ethers-io/ethers.js/).
+Powered by [abi-coder](https://github.com/Destiner/abi-coder) and [ethers.js](https://github.com/ethers-io/ethers.js/).
 
 ```
 npm install ethcall
