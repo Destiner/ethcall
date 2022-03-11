@@ -22,8 +22,8 @@ npm install ethcall
 ## Example
 
 ```js
-import { Contract, Provider } from 'ethcall';
 import { InfuraProvider } from '@ethersproject/providers';
+import { Contract, Provider } from 'ethcall';
 
 import erc20Abi from './abi/erc20.json';
 
@@ -33,23 +33,23 @@ const provider = new InfuraProvider('mainnet', infuraKey);
 const daiAddress = '0x6b175474e89094c44da98b954eedeac495271d0f';
 
 async function call() {
-	const ethcallProvider = new Provider();
-	await ethcallProvider.init(provider);
+  const ethcallProvider = new Provider();
+  await ethcallProvider.init(provider);
 
-	const daiContract = new Contract(daiAddress, erc20Abi);
+  const daiContract = new Contract(daiAddress, erc20Abi);
 
-	const uniswapDaiPool = '0x2a1530c4c41db0b0b2bb646cb5eb1a67b7158667';
+  const uniswapDaiPool = '0x2a1530c4c41db0b0b2bb646cb5eb1a67b7158667';
 
-	const ethBalanceCall = ethcallProvider.getEthBalance(uniswapDaiPool);
-	const daiBalanceCall = daiContract.balanceOf(uniswapDaiPool);
+  const ethBalanceCall = ethcallProvider.getEthBalance(uniswapDaiPool);
+  const daiBalanceCall = daiContract.balanceOf(uniswapDaiPool);
 
-	const data = await ethcallProvider.all([ethBalanceCall, daiBalanceCall]);
+  const data = await ethcallProvider.all([ethBalanceCall, daiBalanceCall]);
 
-	const ethBalance = data[0];
-	const daiBalance = data[1];
+  const ethBalance = data[0];
+  const daiBalance = data[1];
 
-	console.log('eth balance', ethBalance.toString());
-	console.log('dai balance', daiBalance.toString());
+  console.log('eth balance', ethBalance.toString());
+  console.log('dai balance', daiBalance.toString());
 }
 
 call();
