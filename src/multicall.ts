@@ -164,6 +164,10 @@ export function getMulticall2(chainId: number) {
       address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
       block: 0,
     },
+    42161: {
+      address: '0x842eC2c7D803033Edf55E478F461FC547Bc54EB2',
+      block: 0,
+    },
   };
   return addressMap[chainId];
 }
