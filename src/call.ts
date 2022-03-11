@@ -8,6 +8,7 @@ import * as deploylessMulticallAbi from './abi/deploylessMulticall.json';
 import * as deploylessMulticall2Abi from './abi/deploylessMulticall2.json';
 import * as multicallAbi from './abi/multicall.json';
 import * as multicall2Abi from './abi/multicall2.json';
+import * as multicall3Abi from './abi/multicall3.json';
 import {
   Multicall,
   deploylessMulticall2Bytecode,
@@ -27,6 +28,10 @@ export interface Call {
   inputs: JsonFragmentType[];
   outputs: JsonFragmentType[];
   params: any[];
+}
+
+interface FailableCall extends Call {
+  canFail: boolean;
 }
 
 export interface CallResult {
@@ -110,6 +115,47 @@ export async function tryAll<T>(
   return callResult;
 }
 
+export async function tryEach<T>(
+  provider: BaseProvider,
+  multicall3: Multicall | null,
+  calls: FailableCall[],
+  block?: number,
+) {
+  const contract = multicall3
+    ? new Contract(multicall3.address, multicall3Abi, provider)
+    : null;
+  const callRequests = calls.map((call) => {
+    const callData = Abi.encode(call.name, call.inputs, call.params);
+    return {
+      target: call.contract.address,
+      allowFailure: call.canFail,
+      callData,
+    };
+  });
+  const overrides = {
+    blockTag: block,
+  };
+  const response: CallResult[] =
+    contract && (!block || (multicall3 && block > multicall3.block))
+      ? await contract.aggregate3(callRequests, overrides)
+      : await callDeployless3();
+  const callCount = calls.length;
+  const callResult: (T | null)[] = [];
+  for (let i = 0; i < callCount; i++) {
+    const name = calls[i].name;
+    const outputs = calls[i].outputs;
+    const result = response[i];
+    if (!result.success) {
+      callResult.push(null);
+    } else {
+      const params = Abi.decode(name, outputs, result.returnData);
+      const data = outputs.length === 1 ? params[0] : params;
+      callResult.push(data);
+    }
+  }
+  return callResult;
+}
+
 async function callDeployless(
   provider: BaseProvider,
   callRequests: CallRequest[],
@@ -161,4 +207,8 @@ async function callDeployless2(
   // Note "[0]": low-level calls don't automatically unwrap tuple output
   const response = Abi.decode(name, outputs, callData)[0];
   return response as CallResult[];
+}
+
+async function callDeployless3() {
+  throw Error('callDeployless3 method is not implemented');
 }
