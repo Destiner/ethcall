@@ -19,6 +19,7 @@ describe('Provider', () => {
     expect(() => provider.getEthBalance('')).toThrow(errorMessage);
     expect(provider.all([])).rejects.toThrow();
     expect(provider.tryAll([])).rejects.toThrow();
+    expect(provider.tryEach([], [])).rejects.toThrow();
   });
 
   test('throws if Multicall is not available', async () => {
@@ -28,5 +29,6 @@ describe('Provider', () => {
     expect(() => provider.getEthBalance('')).toThrow(errorMessage);
     expect(provider.all([])).rejects.toThrow();
     expect(provider.tryAll([])).rejects.toThrow();
+    expect(provider.tryEach([], [])).rejects.toThrow();
   });
 });
