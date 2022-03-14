@@ -30,14 +30,14 @@
     "abi-coder": "^2.1.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "5.13.0",
-    "@typescript-eslint/parser": "5.13.0",
-    "eslint": "8.10.0",
+    "@typescript-eslint/eslint-plugin": "5.14.0",
+    "@typescript-eslint/parser": "5.14.0",
+    "eslint": "8.11.0",
     "eslint-import-resolver-typescript": "2.5.0",
     "eslint-plugin-import": "2.25.4",
     "prettier": "2.5.1",
     "ts-node": "10.7.0",
     "typescript": "4.6.2",
-    "vitest": "0.5.9"
+    "vitest": "0.6.0"
   }
 }
