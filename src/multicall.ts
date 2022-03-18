@@ -223,6 +223,18 @@ export function getMulticall3(chainId: number) {
       address,
       block: 33001987,
     },
+    1284: {
+      address,
+      block: 609002,
+    },
+    1285: {
+      address,
+      block: 1597904,
+    },
+    1287: {
+      address,
+      block: 1850686,
+    },
     4002: {
       address,
       block: 8328688,
@@ -246,6 +258,10 @@ export function getMulticall3(chainId: number) {
     421611: {
       address,
       block: 10228837,
+    },
+    1666600000: {
+      address,
+      block: 24185753,
     },
   };
   return addressMap[chainId];
