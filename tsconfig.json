@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "target": "ES6",
+    "module": "ES2020",
+    "moduleResolution": "Node",
     "declaration": true,
     "outDir": "./lib",
     "allowSyntheticDefaultImports": true,
