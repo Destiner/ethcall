@@ -16,6 +16,8 @@ import {
 
 const DEFAULT_CHAIN_ID = 1;
 
+type CallType = 'BASIC' | 'TRY_ALL' | 'TRY_EACH';
+
 export default class Provider {
   provider?: BaseProvider;
   multicall: Multicall | null;
@@ -60,13 +62,14 @@ export default class Provider {
     if (!this.provider) {
       throw Error('Provider should be initialized before use.');
     }
-    if (!this.multicall) {
+    const multicall = this.#getContract('BASIC', block);
+    if (!multicall) {
       console.log(
         'Multicall contract is not available on this network, using deployless version.',
       );
     }
     const provider = this.provider as BaseProvider;
-    return await callAll<T>(provider, this.multicall, calls, block);
+    return await callAll<T>(provider, multicall, calls, block);
   }
 
   /**
@@ -79,13 +82,14 @@ export default class Provider {
     if (!this.provider) {
       throw Error('Provider should be initialized before use.');
     }
-    if (!this.multicall2) {
+    const multicall = this.#getContract('TRY_ALL', block);
+    if (!multicall) {
       console.log(
         'Multicall2 contract is not available on this network, using deployless version.',
       );
     }
     const provider = this.provider as BaseProvider;
-    return await callTryAll<T>(provider, this.multicall2, calls, block);
+    return await callTryAll<T>(provider, multicall, calls, block);
   }
 
   /**
@@ -99,7 +103,8 @@ export default class Provider {
     if (!this.provider) {
       throw Error('Provider should be initialized before use.');
     }
-    if (!this.multicall3) {
+    const multicall = this.#getContract('TRY_EACH', block);
+    if (!multicall) {
       console.log(
         'Multicall3 contract is not available on this network, reverting.',
       );
@@ -111,11 +116,29 @@ export default class Provider {
         canFail: canFail[index],
       };
     });
-    return await callTryEach<T>(
-      provider,
-      this.multicall3,
-      failableCalls,
-      block,
-    );
+    return await callTryEach<T>(provider, multicall, failableCalls, block);
+  }
+
+  #getContract(call: CallType, block?: number): Multicall | null {
+    const multicall =
+      this.multicall && (!block || this.multicall.block < block)
+        ? this.multicall
+        : null;
+    const multicall2 =
+      this.multicall2 && (!block || this.multicall2.block < block)
+        ? this.multicall2
+        : null;
+    const multicall3 =
+      this.multicall3 && (!block || this.multicall3.block < block)
+        ? this.multicall3
+        : null;
+    switch (call) {
+      case 'BASIC':
+        return multicall3 || multicall2 || multicall;
+      case 'TRY_ALL':
+        return multicall3 || multicall2;
+      case 'TRY_EACH':
+        return multicall3;
+    }
   }
 }
