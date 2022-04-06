@@ -106,7 +106,7 @@ export default class Provider {
     const multicall = this.#getContract('TRY_EACH', block);
     if (!multicall) {
       console.warn(
-        'Multicall3 contract is not available on this network, reverting.',
+        'Multicall3 contract is not available on this network, using deployless version.',
       );
     }
     const provider = this.provider as BaseProvider;
