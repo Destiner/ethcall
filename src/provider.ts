@@ -64,7 +64,7 @@ export default class Provider {
     }
     const multicall = this.#getContract('BASIC', block);
     if (!multicall) {
-      console.log(
+      console.warn(
         'Multicall contract is not available on this network, using deployless version.',
       );
     }
@@ -84,7 +84,7 @@ export default class Provider {
     }
     const multicall = this.#getContract('TRY_ALL', block);
     if (!multicall) {
-      console.log(
+      console.warn(
         'Multicall2 contract is not available on this network, using deployless version.',
       );
     }
@@ -105,7 +105,7 @@ export default class Provider {
     }
     const multicall = this.#getContract('TRY_EACH', block);
     if (!multicall) {
-      console.log(
+      console.warn(
         'Multicall3 contract is not available on this network, reverting.',
       );
     }
