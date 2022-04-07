@@ -62,7 +62,7 @@ export default class Provider {
     if (!this.provider) {
       throw Error('Provider should be initialized before use.');
     }
-    const multicall = this.#getContract('BASIC', block);
+    const multicall = this.getContract('BASIC', block);
     if (!multicall) {
       console.warn(
         'Multicall contract is not available on this network, using deployless version.',
@@ -82,7 +82,7 @@ export default class Provider {
     if (!this.provider) {
       throw Error('Provider should be initialized before use.');
     }
-    const multicall = this.#getContract('TRY_ALL', block);
+    const multicall = this.getContract('TRY_ALL', block);
     if (!multicall) {
       console.warn(
         'Multicall2 contract is not available on this network, using deployless version.',
@@ -103,7 +103,7 @@ export default class Provider {
     if (!this.provider) {
       throw Error('Provider should be initialized before use.');
     }
-    const multicall = this.#getContract('TRY_EACH', block);
+    const multicall = this.getContract('TRY_EACH', block);
     if (!multicall) {
       console.warn(
         'Multicall3 contract is not available on this network, using deployless version.',
@@ -119,7 +119,7 @@ export default class Provider {
     return await callTryEach<T>(provider, multicall, failableCalls, block);
   }
 
-  #getContract(call: CallType, block?: number): Multicall | null {
+  getContract(call: CallType, block?: number): Multicall | null {
     const multicall =
       this.multicall && (!block || this.multicall.block < block)
         ? this.multicall
