@@ -120,18 +120,15 @@ export default class Provider {
   }
 
   getContract(call: CallType, block?: number): Multicall | null {
-    const multicall =
-      this.multicall && (!block || this.multicall.block < block)
-        ? this.multicall
-        : null;
-    const multicall2 =
-      this.multicall2 && (!block || this.multicall2.block < block)
-        ? this.multicall2
-        : null;
-    const multicall3 =
-      this.multicall3 && (!block || this.multicall3.block < block)
-        ? this.multicall3
-        : null;
+    const multicall = this.isAvailable(this.multicall, block)
+      ? this.multicall
+      : null;
+    const multicall2 = this.isAvailable(this.multicall2, block)
+      ? this.multicall2
+      : null;
+    const multicall3 = this.isAvailable(this.multicall3, block)
+      ? this.multicall3
+      : null;
     switch (call) {
       case 'BASIC':
         return multicall3 || multicall2 || multicall;
@@ -140,5 +137,15 @@ export default class Provider {
       case 'TRY_EACH':
         return multicall3;
     }
+  }
+
+  isAvailable(multicall: Multicall | null, block?: number): boolean {
+    if (!multicall) {
+      return false;
+    }
+    if (!block) {
+      return true;
+    }
+    return multicall.block < block;
   }
 }
