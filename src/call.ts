@@ -60,10 +60,9 @@ export async function all<T>(
   const overrides = {
     blockTag: block,
   };
-  const response =
-    contract && (!block || (multicall && block > multicall.block))
-      ? await contract.aggregate(callRequests, overrides)
-      : await callDeployless(provider, callRequests, block);
+  const response = contract
+    ? await contract.aggregate(callRequests, overrides)
+    : await callDeployless(provider, callRequests, block);
   const callCount = calls.length;
   const callResult: T[] = [];
   for (let i = 0; i < callCount; i++) {
@@ -96,10 +95,9 @@ export async function tryAll<T>(
   const overrides = {
     blockTag: block,
   };
-  const response: CallResult[] =
-    contract && (!block || (multicall2 && block > multicall2.block))
-      ? await contract.tryAggregate(false, callRequests, overrides)
-      : await callDeployless2(provider, callRequests, block);
+  const response: CallResult[] = contract
+    ? await contract.tryAggregate(false, callRequests, overrides)
+    : await callDeployless2(provider, callRequests, block);
   const callCount = calls.length;
   const callResult: (T | null)[] = [];
   for (let i = 0; i < callCount; i++) {
@@ -137,10 +135,9 @@ export async function tryEach<T>(
   const overrides = {
     blockTag: block,
   };
-  const response: CallResult[] =
-    contract && (!block || (multicall3 && block > multicall3.block))
-      ? await contract.aggregate3(callRequests, overrides)
-      : await callDeployless3(provider, callRequests, block);
+  const response: CallResult[] = contract
+    ? await contract.aggregate3(callRequests, overrides)
+    : await callDeployless3(provider, callRequests, block);
   const callCount = calls.length;
   const callResult: (T | null)[] = [];
   for (let i = 0; i < callCount; i++) {
