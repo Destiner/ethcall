@@ -18,6 +18,8 @@ const DEFAULT_CHAIN_ID = 1;
 
 type CallType = 'BASIC' | 'TRY_ALL' | 'TRY_EACH';
 
+export type BlockTag = number | 'latest' | 'pending';
+
 export default class Provider {
   provider?: BaseProvider;
   multicall: Multicall | null;
@@ -58,7 +60,7 @@ export default class Provider {
    * @param calls  Array of Call objects containing information about each read call
    * @param block  Block number for this call
    */
-  async all<T>(calls: Call[], block?: number) {
+  async all<T>(calls: Call[], block?: BlockTag) {
     if (!this.provider) {
       throw Error('Provider should be initialized before use.');
     }
@@ -119,7 +121,7 @@ export default class Provider {
     return await callTryEach<T>(provider, multicall, failableCalls, block);
   }
 
-  getContract(call: CallType, block?: number): Multicall | null {
+  getContract(call: CallType, block?: BlockTag): Multicall | null {
     const multicall = this.isAvailable(this.multicall, block)
       ? this.multicall
       : null;
@@ -139,11 +141,14 @@ export default class Provider {
     }
   }
 
-  isAvailable(multicall: Multicall | null, block?: number): boolean {
+  isAvailable(multicall: Multicall | null, block?: BlockTag): boolean {
     if (!multicall) {
       return false;
     }
     if (!block) {
+      return true;
+    }
+    if (block === 'latest' || block === 'pending') {
       return true;
     }
     return multicall.block < block;

@@ -16,6 +16,7 @@ import {
   deploylessMulticall2Bytecode,
   deploylessMulticall3Bytecode,
 } from './multicall';
+import { BlockTag } from './provider';
 
 interface CallRequest {
   target: string;
@@ -45,7 +46,7 @@ export async function all<T>(
   provider: BaseProvider,
   multicall: Multicall | null,
   calls: Call[],
-  block?: number,
+  block?: BlockTag,
 ) {
   const contract = multicall
     ? new Contract(multicall.address, multicallAbi, provider)
@@ -80,7 +81,7 @@ export async function tryAll<T>(
   provider: BaseProvider,
   multicall2: Multicall | null,
   calls: Call[],
-  block?: number,
+  block?: BlockTag,
 ) {
   const contract = multicall2
     ? new Contract(multicall2.address, multicall2Abi, provider)
@@ -119,7 +120,7 @@ export async function tryEach<T>(
   provider: BaseProvider,
   multicall3: Multicall | null,
   calls: FailableCall[],
-  block?: number,
+  block?: BlockTag,
 ) {
   const contract = multicall3
     ? new Contract(multicall3.address, multicall3Abi, provider)
@@ -158,7 +159,7 @@ export async function tryEach<T>(
 async function callDeployless(
   provider: BaseProvider,
   callRequests: CallRequest[],
-  block?: number,
+  block?: BlockTag,
 ) {
   const inputAbi: JsonFragment[] = deploylessMulticallAbi;
   const constructor = inputAbi.find((f) => f.type === 'constructor');
@@ -184,7 +185,7 @@ async function callDeployless(
 async function callDeployless2(
   provider: BaseProvider,
   callRequests: CallRequest[],
-  block?: number,
+  block?: BlockTag,
 ) {
   const inputAbi: JsonFragment[] = deploylessMulticall2Abi;
   const constructor = inputAbi.find((f) => f.type === 'constructor');
@@ -211,7 +212,7 @@ async function callDeployless2(
 async function callDeployless3(
   provider: BaseProvider,
   callRequests: CallRequest[],
-  block?: number,
+  block?: BlockTag,
 ) {
   const inputAbi: JsonFragment[] = deploylessMulticall3Abi;
   const constructor = inputAbi.find((f) => f.type === 'constructor');

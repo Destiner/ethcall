@@ -1,5 +1,5 @@
 import { Call } from './call';
 import Contract from './contract';
-import Provider from './provider';
+import Provider, { BlockTag } from './provider';
 
-export { Call, Contract, Provider };
+export { BlockTag, Call, Contract, Provider };
