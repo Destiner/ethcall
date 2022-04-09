@@ -195,6 +195,14 @@ export function getMulticall3(chainId: number) {
       address,
       block: 4286263,
     },
+    16: {
+      address,
+      block: 276388,
+    },
+    19: {
+      address,
+      block: 13382504,
+    },
     42: {
       address,
       block: 30285908,
