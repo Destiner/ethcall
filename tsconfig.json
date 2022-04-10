@@ -2,12 +2,30 @@
   "compilerOptions": {
     "target": "ES5",
     "module": "CommonJS",
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
+
     "declaration": true,
-    "outDir": "./lib",
-    "allowSyntheticDefaultImports": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": false,
     "resolveJsonModule": true,
-    "strict": true
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "useDefineForClassFields": true,
+
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"]
+    }
   },
   "include": ["src/**/*.ts", "tests/**/*.ts"]
 }
