@@ -1,40 +1,29 @@
 {
   "env": {
-    "browser": false,
-    "es6": true
+    "es2020": true,
+    "node": true
   },
-  "plugins": ["import"],
   "extends": [
     "eslint:recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
+    "plugin:import/recommended",
     "plugin:import/typescript",
     "plugin:@typescript-eslint/recommended"
   ],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
     "ecmaVersion": 2020,
     "sourceType": "module"
   },
+  "plugins": ["import"],
   "rules": {
-    "indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
-    "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "single", { "avoidEscape": true }],
-    "semi": ["error", "always"],
-    "comma-dangle": ["error", "always-multiline"],
     "import/first": "error",
+    "import/exports-last": "error",
     "import/newline-after-import": "error",
+    "import/prefer-default-export": "error",
+    "import/group-exports": "error",
     "import/no-duplicates": "error",
+    "import/no-amd": "error",
+    "import/no-commonjs": "error",
     "import/order": [
       "error",
       {
@@ -44,9 +33,14 @@
         }
       }
     ],
-    "@typescript-eslint/ban-ts-ignore": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off"
+    "import/no-unused-modules": "error",
+    "import/no-mutable-exports": "error",
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["test/**/*.test.ts"]}],
+    "@typescript-eslint/explicit-function-return-type": "error"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
   }
 }
