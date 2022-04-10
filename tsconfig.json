@@ -22,6 +22,7 @@
     "strict": true,
     "useDefineForClassFields": true,
 
+    "outDir": "./lib",
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"]
