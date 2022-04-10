@@ -1,8 +1,15 @@
-import { JsonFragmentType } from '@ethersproject/abi';
+import { JsonFragmentType, Result } from '@ethersproject/abi';
 import Coder from 'abi-coder';
 
-export default class Abi {
-  static encode(name: string, jsonInputs: JsonFragmentType[], params: any[]) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Params = any[];
+
+class Abi {
+  static encode(
+    name: string,
+    jsonInputs: JsonFragmentType[],
+    params: Params,
+  ): string {
     const abi = [
       {
         type: 'function',
@@ -14,7 +21,10 @@ export default class Abi {
     return coder.encodeFunction(name, params);
   }
 
-  static encodeConstructor(jsonInputs: JsonFragmentType[], params: any[]) {
+  static encodeConstructor(
+    jsonInputs: JsonFragmentType[],
+    params: Params,
+  ): string {
     const abi = [
       {
         type: 'constructor',
@@ -25,7 +35,11 @@ export default class Abi {
     return coder.encodeConstructor(params);
   }
 
-  static decode(name: string, jsonOutputs: JsonFragmentType[], data: string) {
+  static decode(
+    name: string,
+    jsonOutputs: JsonFragmentType[],
+    data: string,
+  ): Result {
     const abi = [
       {
         type: 'function',
@@ -38,3 +52,7 @@ export default class Abi {
     return output.values;
   }
 }
+
+export { Params };
+
+export default Abi;

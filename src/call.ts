@@ -1,9 +1,9 @@
-import { JsonFragment, JsonFragmentType } from '@ethersproject/abi';
+import { JsonFragment, JsonFragmentType, Result } from '@ethersproject/abi';
 import { hexConcat } from '@ethersproject/bytes';
 import { Contract } from '@ethersproject/contracts';
 import { BaseProvider } from '@ethersproject/providers';
 
-import Abi from './abi';
+import Abi, { Params } from './abi';
 import * as deploylessMulticallAbi from './abi/deploylessMulticall.json';
 import * as deploylessMulticall2Abi from './abi/deploylessMulticall2.json';
 import * as deploylessMulticall3Abi from './abi/deploylessMulticall3.json';
@@ -23,31 +23,31 @@ interface CallRequest {
   callData: string;
 }
 
-export interface Call {
+interface Call {
   contract: {
     address: string;
   };
   name: string;
   inputs: JsonFragmentType[];
   outputs: JsonFragmentType[];
-  params: any[];
+  params: Params;
 }
 
 interface FailableCall extends Call {
   canFail: boolean;
 }
 
-export interface CallResult {
+interface CallResult {
   success: boolean;
   returnData: string;
 }
 
-export async function all<T>(
+async function all<T>(
   provider: BaseProvider,
   multicall: Multicall | null,
   calls: Call[],
   block?: BlockTag,
-) {
+): Promise<T[]> {
   const contract = multicall
     ? new Contract(multicall.address, multicallAbi, provider)
     : null;
@@ -77,12 +77,12 @@ export async function all<T>(
   return callResult;
 }
 
-export async function tryAll<T>(
+async function tryAll<T>(
   provider: BaseProvider,
   multicall2: Multicall | null,
   calls: Call[],
   block?: BlockTag,
-) {
+): Promise<(T | null)[]> {
   const contract = multicall2
     ? new Contract(multicall2.address, multicall2Abi, provider)
     : null;
@@ -116,12 +116,12 @@ export async function tryAll<T>(
   return callResult;
 }
 
-export async function tryEach<T>(
+async function tryEach<T>(
   provider: BaseProvider,
   multicall3: Multicall | null,
   calls: FailableCall[],
   block?: BlockTag,
-) {
+): Promise<(T | null)[]> {
   const contract = multicall3
     ? new Contract(multicall3.address, multicall3Abi, provider)
     : null;
@@ -160,7 +160,7 @@ async function callDeployless(
   provider: BaseProvider,
   callRequests: CallRequest[],
   block?: BlockTag,
-) {
+): Promise<Result> {
   const inputAbi: JsonFragment[] = deploylessMulticallAbi;
   const constructor = inputAbi.find((f) => f.type === 'constructor');
   const inputs = constructor?.inputs || [];
@@ -186,7 +186,7 @@ async function callDeployless2(
   provider: BaseProvider,
   callRequests: CallRequest[],
   block?: BlockTag,
-) {
+): Promise<Result> {
   const inputAbi: JsonFragment[] = deploylessMulticall2Abi;
   const constructor = inputAbi.find((f) => f.type === 'constructor');
   const inputs = constructor?.inputs || [];
@@ -213,7 +213,7 @@ async function callDeployless3(
   provider: BaseProvider,
   callRequests: CallRequest[],
   block?: BlockTag,
-) {
+): Promise<Result> {
   const inputAbi: JsonFragment[] = deploylessMulticall3Abi;
   const constructor = inputAbi.find((f) => f.type === 'constructor');
   const inputs = constructor?.inputs || [];
@@ -235,3 +235,5 @@ async function callDeployless3(
   const response = Abi.decode(name, outputs, callData)[0];
   return response as CallResult[];
 }
+
+export { Call, CallResult, all, tryAll, tryEach };

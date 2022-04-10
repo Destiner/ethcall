@@ -32,7 +32,7 @@ export default class Provider {
     this.multicall3 = getMulticall3(DEFAULT_CHAIN_ID);
   }
 
-  async init(provider: BaseProvider) {
+  async init(provider: BaseProvider): Promise<void> {
     this.provider = provider;
     const network = await provider.getNetwork();
     this.multicall = getMulticall(network.chainId);
@@ -44,7 +44,7 @@ export default class Provider {
    * Makes one call to the multicall contract to retrieve eth balance of the given address.
    * @param address  Address of the account you want to look up
    */
-  getEthBalance(address: string) {
+  getEthBalance(address: string): Call {
     if (!this.provider) {
       throw Error('Provider should be initialized before use.');
     }
@@ -60,7 +60,7 @@ export default class Provider {
    * @param calls  Array of Call objects containing information about each read call
    * @param block  Block number for this call
    */
-  async all<T>(calls: Call[], block?: BlockTag) {
+  async all<T>(calls: Call[], block?: BlockTag): Promise<T[]> {
     if (!this.provider) {
       throw Error('Provider should be initialized before use.');
     }
@@ -80,7 +80,7 @@ export default class Provider {
    * @param calls  Array of Call objects containing information about each read call
    * @param block  Block number for this call
    */
-  async tryAll<T>(calls: Call[], block?: number) {
+  async tryAll<T>(calls: Call[], block?: number): Promise<(T | null)[]> {
     if (!this.provider) {
       throw Error('Provider should be initialized before use.');
     }
@@ -101,7 +101,11 @@ export default class Provider {
    * @param canFail  Array of booleans specifying whether each call can fail
    * @param block    Block number for this call
    */
-  async tryEach<T>(calls: Call[], canFail: boolean[], block?: number) {
+  async tryEach<T>(
+    calls: Call[],
+    canFail: boolean[],
+    block?: number,
+  ): Promise<(T | null)[]> {
     if (!this.provider) {
       throw Error('Provider should be initialized before use.');
     }

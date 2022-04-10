@@ -1,11 +1,13 @@
 import { JsonFragment } from '@ethersproject/abi';
 
+import { Params } from './abi';
 import { Call } from './call';
 
-export default class Contract {
+class Contract {
   address: string;
   abi: JsonFragment[];
   functions: JsonFragment[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: Call | any;
 
   constructor(address: string, abi: JsonFragment[]) {
@@ -35,7 +37,7 @@ export default class Contract {
 }
 
 function makeCallFunction(contract: Contract, name: string) {
-  return (...params: any[]): Call => {
+  return (...params: Params): Call => {
     const address = contract.address;
     const func = contract.functions.find((f) => f.name === name);
     const inputs = func?.inputs || [];
@@ -51,3 +53,5 @@ function makeCallFunction(contract: Contract, name: string) {
     };
   };
 }
+
+export default Contract;

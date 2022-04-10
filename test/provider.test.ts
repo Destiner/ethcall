@@ -1,10 +1,10 @@
-import { BaseProvider } from '@ethersproject/providers';
+import { BaseProvider, Network } from '@ethersproject/providers';
 import { describe, test, expect } from 'vitest';
 
 import Provider from '../src/provider';
 
 class FakeProvider extends BaseProvider {
-  async getNetwork() {
+  async getNetwork(): Promise<Network> {
     return {
       name: 'FakeNetwork',
       chainId: -1,
