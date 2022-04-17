@@ -70,6 +70,10 @@ function getMulticall(chainId: number): Multicall | null {
       address: '0x543528e13eac69206e87334cca971503a552438b',
       block: 0,
     },
+    592: {
+			address: '0x57F40bbBCc11BE5471a8f9bF1dE56816a1CF08f6',
+			block: 0,
+		},
     820: {
       address: '0x8ba3d23241c7044be703afaf2a728fdbc16f5f6f',
       block: 0,
