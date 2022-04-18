@@ -55,6 +55,10 @@ async function call() {
 call();
 ```
 
+## Contributing
+
+All Mulitcall contracts are stored in `src/multicall.ts` file. There are three `getMulticall` methods corresponding to three Multicall versions. To add a new contract, you need to know its version, address, chain id of the underlying chain, and (optionally) block at which the Multicall contract was deployed.
+
 ## Deployless Multicall
 
 If you query a chain on which Multicall is not deployed, or if you query a historical block before the deployment of the contract, the deployless version will be used instead. In short, deployless Multicall "emulates" the deployed contract and returns the exact same data. Note that you can't query ETH balance using deployless version.
