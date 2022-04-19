@@ -4,12 +4,12 @@ import { Contract } from '@ethersproject/contracts';
 import { BaseProvider } from '@ethersproject/providers';
 
 import Abi, { Params } from './abi';
-import * as deploylessMulticallAbi from './abi/deploylessMulticall.json';
-import * as deploylessMulticall2Abi from './abi/deploylessMulticall2.json';
-import * as deploylessMulticall3Abi from './abi/deploylessMulticall3.json';
-import * as multicallAbi from './abi/multicall.json';
-import * as multicall2Abi from './abi/multicall2.json';
-import * as multicall3Abi from './abi/multicall3.json';
+import deploylessMulticallAbi from './abi/deploylessMulticall.json';
+import deploylessMulticall2Abi from './abi/deploylessMulticall2.json';
+import deploylessMulticall3Abi from './abi/deploylessMulticall3.json';
+import multicallAbi from './abi/multicall.json';
+import multicall2Abi from './abi/multicall2.json';
+import multicall3Abi from './abi/multicall3.json';
 import {
   Multicall,
   deploylessMulticallBytecode,
