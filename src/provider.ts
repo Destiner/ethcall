@@ -48,10 +48,11 @@ export default class Provider {
     if (!this.provider) {
       throw Error('Provider should be initialized before use.');
     }
-    if (!this.multicall) {
+    const multicall = this.multicall || this.multicall2 || this.multicall3;
+    if (!multicall) {
       throw Error('Multicall contract is not available on this network.');
     }
-    return getEthBalance(address, this.multicall?.address);
+    return getEthBalance(address, multicall.address);
   }
 
   /**
