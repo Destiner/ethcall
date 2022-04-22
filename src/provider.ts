@@ -45,9 +45,6 @@ export default class Provider {
    * @param address  Address of the account you want to look up
    */
   getEthBalance(address: string): Call {
-    if (!this.provider) {
-      throw Error('Provider should be initialized before use.');
-    }
     const multicall = this.multicall || this.multicall2 || this.multicall3;
     if (!multicall) {
       throw Error('Multicall contract is not available on this network.');
