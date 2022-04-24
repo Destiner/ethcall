@@ -4,7 +4,7 @@
     ":preserveSemverRanges",
     ":disableDependencyDashboard"
   ],
-  "schedule": ["every sunday"],
+  "schedule": ["before 8am on the first day of the month"],
   "packageRules": [
     {
       "updateTypes": ["minor", "patch", "pin", "digest"],
