@@ -12,11 +12,15 @@ npm install ethcall
 
 ## API
 
-* `Contract(address, abi)`: create contract instance; calling `contract.call_func_name` will yield a `call` object.
-* `all(calls)`: execute all calls in a single request.
-* `tryAll(calls)`: execute all calls in a single request. Ignores reverted calls and returns `null` value in place of return data (wrapper on top of `tryAggregate` method).
-* `tryEach(calls, canFail)`: execute all calls in a single request. Ignores reverted calls and returns `null` value in place of return data for the calls that are allowed to fail (wrapper on top of `aggregate3` method).
-* `calls`: list of helper call methods
+* `Contract`
+  * `constructor(address, abi)`: creates Contract instance
+  * `CALL_FUNC_NAME`: yields a `call` object; usage is similar to `ethers` Contract class
+* `Provider`
+  * `constructor()`: creates Provider instance
+  * `init(ethersProvider)`: initializes a provider; should be called once before any other request
+  * `all(calls)`: executes all calls in a single request
+  * `tryAll(calls)`: executes all calls in a single request. Ignores reverted calls and returns `null` value in place of return data (wrapper on top of `tryAggregate` method)
+  * `tryEach(calls, canFail)`: executes all calls in a single request. Ignores reverted calls and returns `null` value in place of return data for the calls that are allowed to fail (wrapper on top of `aggregate3` method)
   * `getEthBalance(address)`: returns account ether balance
 
 ## Example
