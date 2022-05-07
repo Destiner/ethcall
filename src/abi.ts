@@ -59,16 +59,16 @@ class Abi {
     const coder = new Coder(abi);
 
     const functionOutput = coder.decodeFunctionOutput(name, data);
-    return outputs.map(
-      (output) => functionOutput.values[output.name || ''],
-    );
+    return outputs.map((output) => functionOutput.values[output.name || '']);
   }
 }
 
 // ABI doesn't enforce to specify param names
 // However, abi-coder requires names to parse the params.
 // Therefore, we "patch" the ABI by assigning a unique param names.
-function backfillParamNames(jsonParams: JsonFragmentType[]): JsonFragmentType[] {
+function backfillParamNames(
+  jsonParams: JsonFragmentType[],
+): JsonFragmentType[] {
   const names = new Set(...jsonParams.map((param) => param.name));
   return jsonParams.map((param) => {
     const { name: originalName, indexed, type, components } = param;
