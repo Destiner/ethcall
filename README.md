@@ -25,7 +25,7 @@ npm install ethcall
 
 ## Example
 
-> Also see [./examples](examples) for reference.
+> Also see [examples](./examples) for reference.
 
 ```js
 import { InfuraProvider } from '@ethersproject/providers';
