@@ -6,7 +6,7 @@ import {
   tryAll as callTryAll,
   tryEach as callTryEach,
 } from './call';
-import { getEthBalance } from './calls';
+import getEthBalance from './calls';
 import {
   Multicall,
   getMulticall,
@@ -18,9 +18,9 @@ const DEFAULT_CHAIN_ID = 1;
 
 type CallType = 'BASIC' | 'TRY_ALL' | 'TRY_EACH';
 
-export type BlockTag = number | 'latest' | 'pending';
+type BlockTag = number | 'latest' | 'pending';
 
-export default class Provider {
+class Provider {
   provider?: BaseProvider;
   multicall: Multicall | null;
   multicall2: Multicall | null;
@@ -156,3 +156,7 @@ export default class Provider {
     return multicall.block < block;
   }
 }
+
+export default Provider;
+
+export type { BlockTag };
