@@ -2,12 +2,17 @@
   "name": "ethcall",
   "version": "4.7.0",
   "description": "ethers.js-compatible wrapper around Multicall",
-  "main": "lib/index.js",
   "author": "Timur Badretdinov <destinerx@gmail.com>",
   "keywords": [
     "ethers",
     "ethereum"
   ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Destiner/ethcall.git"
+  },
+  "main": "lib/index.js",
   "scripts": {
     "test": "vitest run",
     "lint": "npm run lint:eslint && npm run lint:prettier",
@@ -16,11 +21,6 @@
     "build": "tsc",
     "prepublishOnly": "npm run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/Destiner/ethcall.git"
-  },
-  "license": "MIT",
   "dependencies": {
     "@ethersproject/abi": "^5.0.0",
     "@ethersproject/bytes": "^5.0.0",
