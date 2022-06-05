@@ -1,5 +1,5 @@
 import { JsonFragmentType, Result } from '@ethersproject/abi';
-import Coder from 'abi-coder';
+import { Coder } from 'abi-coder';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Params = any[];
