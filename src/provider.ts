@@ -1,4 +1,7 @@
-import { BaseProvider } from '@ethersproject/providers';
+import {
+  BaseProvider,
+  Provider as EthersProvider,
+} from '@ethersproject/providers';
 
 import {
   Call,
@@ -24,7 +27,7 @@ type BlockTag = number | 'latest' | 'pending';
  * Represents a Multicall provider. Used to execute multiple Calls.
  */
 class Provider {
-  provider?: BaseProvider;
+  provider?: EthersProvider;
   multicall: Multicall | null;
   multicall2: Multicall | null;
   multicall3: Multicall | null;
@@ -42,7 +45,7 @@ class Provider {
    * Initialize the provider. Should be called once before making any requests.
    * @param provider ethers provider
    */
-  async init(provider: BaseProvider): Promise<void> {
+  async init(provider: EthersProvider): Promise<void> {
     this.provider = provider;
     const network = await provider.getNetwork();
     this.multicall = getMulticall(network.chainId);
