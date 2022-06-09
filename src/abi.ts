@@ -65,7 +65,7 @@ class Abi {
 
 // ABI doesn't enforce to specify param names
 // However, abi-coder requires names to parse the params.
-// Therefore, we "patch" the ABI by assigning a unique param names.
+// Therefore, we "patch" the ABI by assigning unique param names.
 function backfillParamNames(
   jsonParams: JsonFragmentType[],
 ): JsonFragmentType[] {
