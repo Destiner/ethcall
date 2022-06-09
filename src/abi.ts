@@ -10,7 +10,7 @@ class Abi {
     jsonInputs: JsonFragmentType[],
     params: Params,
   ): string {
-    const inputs = backfillParamNames(jsonInputs);
+    const { params: inputs } = backfillParamNames(jsonInputs);
     const abi = [
       {
         type: 'function',
@@ -29,7 +29,7 @@ class Abi {
     jsonInputs: JsonFragmentType[],
     params: Params,
   ): string {
-    const inputs = backfillParamNames(jsonInputs);
+    const { params: inputs } = backfillParamNames(jsonInputs);
     const abi = [
       {
         type: 'constructor',
@@ -48,7 +48,7 @@ class Abi {
     jsonOutputs: JsonFragmentType[],
     data: string,
   ): Result {
-    const outputs = backfillParamNames(jsonOutputs);
+    const { params: outputs, generated } = backfillParamNames(jsonOutputs);
     const abi = [
       {
         type: 'function',
@@ -59,21 +59,42 @@ class Abi {
     const coder = new Coder(abi);
 
     const functionOutput = coder.decodeFunctionOutput(name, data);
-    return outputs.map((output) => functionOutput.values[output.name || '']);
+    const result = outputs.map(
+      (output) => functionOutput.values[output.name || ''],
+    );
+    for (const [name, value] of Object.entries(functionOutput.values)) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const key = name as any;
+      // Skip generated names for clarity
+      if (generated.has(name)) {
+        continue;
+      }
+      // Don't overwrite existing keys
+      if (result[key]) {
+        continue;
+      }
+      result[key] = value;
+    }
+    return result;
   }
 }
 
 // ABI doesn't enforce to specify param names
 // However, abi-coder requires names to parse the params.
 // Therefore, we "patch" the ABI by assigning unique param names.
-function backfillParamNames(
-  jsonParams: JsonFragmentType[],
-): JsonFragmentType[] {
+function backfillParamNames(jsonParams: JsonFragmentType[]): {
+  params: JsonFragmentType[];
+  generated: Set<string>;
+} {
   const names = new Set(...jsonParams.map((param) => param.name));
-  return jsonParams.map((param) => {
+  const generated = new Set<string>();
+  const params = jsonParams.map((param) => {
     const { name: originalName, indexed, type, components } = param;
     const name = originalName ? originalName : generateUniqueName(names);
     names.add(name);
+    if (!originalName) {
+      generated.add(name);
+    }
     return {
       name,
       indexed,
@@ -81,6 +102,10 @@ function backfillParamNames(
       components,
     };
   });
+  return {
+    params,
+    generated,
+  };
 }
 
 function generateUniqueName(names: Set<string>): string {
@@ -88,7 +113,7 @@ function generateUniqueName(names: Set<string>): string {
   while (names.has(i.toString())) {
     i++;
   }
-  return i.toString();
+  return `param-${Math.random().toString().substring(2)}`;
 }
 
 export { Params };
