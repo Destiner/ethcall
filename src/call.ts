@@ -105,7 +105,7 @@ async function tryAll<T>(
     const name = calls[i].name;
     const outputs = calls[i].outputs;
     const result = response[i];
-    if (!result.success) {
+    if (!result.success || result.returnData == '0x') {
       callResult.push(null);
     } else {
       const params = Abi.decode(name, outputs, result.returnData);
@@ -145,7 +145,7 @@ async function tryEach<T>(
     const name = calls[i].name;
     const outputs = calls[i].outputs;
     const result = response[i];
-    if (!result.success) {
+    if (!result.success || result.returnData == '0x') {
       callResult.push(null);
     } else {
       const params = Abi.decode(name, outputs, result.returnData);
