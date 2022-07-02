@@ -108,9 +108,14 @@ async function tryAll<T>(
     if (!result.success) {
       callResult.push(null);
     } else {
-      const params = Abi.decode(name, outputs, result.returnData);
-      const data = outputs.length === 1 ? params[0] : params;
-      callResult.push(data);
+      try {
+        const params = Abi.decode(name, outputs, result.returnData);
+        const data = outputs.length === 1 ? params[0] : params;
+        callResult.push(data);
+      } catch (e) {
+        // Failed to decode the data: most likely calling non-existing contract
+        callResult.push(null);
+      }
     }
   }
   return callResult;
@@ -148,9 +153,14 @@ async function tryEach<T>(
     if (!result.success) {
       callResult.push(null);
     } else {
-      const params = Abi.decode(name, outputs, result.returnData);
-      const data = outputs.length === 1 ? params[0] : params;
-      callResult.push(data);
+      try {
+        const params = Abi.decode(name, outputs, result.returnData);
+        const data = outputs.length === 1 ? params[0] : params;
+        callResult.push(data);
+      } catch (e) {
+        // Failed to decode the data: most likely calling non-existing contract
+        callResult.push(null);
+      }
     }
   }
   return callResult;
