@@ -95,7 +95,7 @@ class Provider {
    * @param block Block number for this call
    * @returns List of fetched data. Failed calls will result in null values.
    */
-  async tryAll<T>(calls: Call[], block?: number): Promise<(T | null)[]> {
+  async tryAll<T>(calls: Call[], block?: BlockTag): Promise<(T | null)[]> {
     if (!this.provider) {
       throw Error('Provider should be initialized before use.');
     }
@@ -121,7 +121,7 @@ class Provider {
   async tryEach<T>(
     calls: Call[],
     canFail: boolean[],
-    block?: number,
+    block?: BlockTag,
   ): Promise<(T | null)[]> {
     if (!this.provider) {
       throw Error('Provider should be initialized before use.');
