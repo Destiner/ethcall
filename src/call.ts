@@ -28,8 +28,8 @@ interface Call {
     address: string;
   };
   name: string;
-  inputs: JsonFragmentType[];
-  outputs: JsonFragmentType[];
+  inputs: readonly JsonFragmentType[];
+  outputs: readonly JsonFragmentType[];
   params: Params;
 }
 
