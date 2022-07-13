@@ -60,6 +60,7 @@ async function all<T>(
   });
   const overrides = {
     blockTag: block,
+    from: multicall?.address,
   };
   const response = contract
     ? await contract.aggregate(callRequests, overrides)
@@ -95,6 +96,7 @@ async function tryAll<T>(
   });
   const overrides = {
     blockTag: block,
+    from: multicall2?.address,
   };
   const response: CallResult[] = contract
     ? await contract.tryAggregate(false, callRequests, overrides)
@@ -140,6 +142,7 @@ async function tryEach<T>(
   });
   const overrides = {
     blockTag: block,
+    from: multicall3?.address,
   };
   const response: CallResult[] = contract
     ? await contract.aggregate3(callRequests, overrides)
