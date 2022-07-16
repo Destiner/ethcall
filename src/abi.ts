@@ -7,7 +7,7 @@ type Params = any[];
 class Abi {
   static encode(
     name: string,
-    jsonInputs: JsonFragmentType[],
+    jsonInputs: readonly JsonFragmentType[],
     params: Params,
   ): string {
     const { params: inputs } = backfillParamNames(jsonInputs);
@@ -26,7 +26,7 @@ class Abi {
   }
 
   static encodeConstructor(
-    jsonInputs: JsonFragmentType[],
+    jsonInputs: readonly JsonFragmentType[],
     params: Params,
   ): string {
     const { params: inputs } = backfillParamNames(jsonInputs);
@@ -45,7 +45,7 @@ class Abi {
 
   static decode(
     name: string,
-    jsonOutputs: JsonFragmentType[],
+    jsonOutputs: readonly JsonFragmentType[],
     data: string,
   ): Result {
     const { params: outputs, generated } = backfillParamNames(jsonOutputs);
@@ -82,7 +82,7 @@ class Abi {
 // ABI doesn't enforce to specify param names
 // However, abi-coder requires names to parse the params.
 // Therefore, we "patch" the ABI by assigning unique param names.
-function backfillParamNames(jsonParams: JsonFragmentType[]): {
+function backfillParamNames(jsonParams: readonly JsonFragmentType[]): {
   params: JsonFragmentType[];
   generated: Set<string>;
 } {
