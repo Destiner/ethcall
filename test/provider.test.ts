@@ -1,5 +1,5 @@
-import { BaseProvider, Network } from '@ethersproject/providers';
-import { describe, test, expect } from 'vitest';
+import { BaseProvider, JsonRpcProvider, Network } from '@ethersproject/providers';
+import { describe, expect, test, vitest } from 'vitest';
 
 import Provider from '../src/provider';
 
@@ -29,5 +29,53 @@ describe('Provider', () => {
     expect(provider.all([])).rejects.toThrow();
     expect(provider.tryAll([])).rejects.toThrow();
     expect(provider.tryEach([], [])).rejects.toThrow();
+  });
+
+  test('adds multicall address manually', async () => {
+    const chainId = 0x72;
+    const provider = new Provider();
+    const errorMessage = 'Multicall contract is not available on this network.';
+    const providerExt = new Provider({
+      [chainId]: {
+        1: {
+          address: '0xC1a617f5d6bEE81c4677263f08D0c5d1757B7a3e',
+          block: 0,
+        },
+        2: {
+          address: '0xC1a617f5d6bEE81c4677263f08D0c5d1757B7a3e',
+          block: 0,
+        },
+        3: {
+          address: '0xC1a617f5d6bEE81c4677263f08D0c5d1757B7a3e',
+          block: 0,
+        },
+      }
+    });
+
+    await provider.init(new FakeProvider(chainId));
+
+    expect(() => provider.getEthBalance('')).toThrow(errorMessage);
+    expect(provider.all([])).rejects.toThrow();
+    expect(provider.tryAll([])).rejects.toThrow();
+    expect(provider.tryEach([], [])).rejects.toThrow();
+
+    const _warn = console.warn;
+
+    console.warn = vitest.fn();
+
+    await providerExt.init(
+      new JsonRpcProvider(
+        "https://coston2-api.flare.network/ext/C/rpc"
+      )
+    );
+
+    expect(() => providerExt.getEthBalance('')).not.toThrow();
+    expect(providerExt.all([])).not.rejects.toThrow();
+    expect(providerExt.tryAll([])).not.rejects.toThrow();
+    expect(providerExt.tryEach([], [])).not.rejects.toThrow();
+
+    expect(console.warn).not.toBeCalled();
+
+    console.warn = _warn;
   });
 });

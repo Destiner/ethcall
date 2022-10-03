@@ -23,10 +23,14 @@ type CallType = 'BASIC' | 'TRY_ALL' | 'TRY_EACH';
 
 type BlockTag = number | 'latest' | 'pending';
 
+type AdditionalMulticallAddresses = Record<number, Partial<Record<1 | 2 | 3, Multicall>>>;
+
 /**
  * Represents a Multicall provider. Used to execute multiple Calls.
  */
 class Provider {
+  private _additionalAddresses: AdditionalMulticallAddresses = {};
+
   provider?: EthersProvider;
   multicall: Multicall | null;
   multicall2: Multicall | null;
@@ -34,8 +38,29 @@ class Provider {
 
   /**
    * Create a provider.
+   * 
+   * @param {AdditionalMulticallAddresses} additionalAddresses is a record of additionals multicall addresses
+   * 
+   * @example
+   * 
+   * ```ts
+   * // gets an instance of Provider with new multicall addresses set
+   * new Provider({
+   *    43114: {
+   *       1: {
+   *         address: '0xE8eeDd99baC03871CF123E76cE90bA179Df94351',
+   *         block: 11907934,
+   *       },
+   *       3: {
+   *         address: '0xca11bde05977b3631167028862be2a173976ca11',
+   *         block: 0,
+   *       },
+   *    }
+   * })
+   * ```
    */
-  constructor() {
+  constructor(additionalAddresses: AdditionalMulticallAddresses = {}) {
+    this._additionalAddresses = additionalAddresses;
     this.multicall = getMulticall(DEFAULT_CHAIN_ID);
     this.multicall2 = getMulticall2(DEFAULT_CHAIN_ID);
     this.multicall3 = getMulticall3(DEFAULT_CHAIN_ID);
@@ -48,9 +73,9 @@ class Provider {
   async init(provider: EthersProvider): Promise<void> {
     this.provider = provider;
     const network = await provider.getNetwork();
-    this.multicall = getMulticall(network.chainId);
-    this.multicall2 = getMulticall2(network.chainId);
-    this.multicall3 = getMulticall3(network.chainId);
+    this.multicall = this._additionalAddresses[network.chainId]?.[1] ?? getMulticall(network.chainId);
+    this.multicall2 = this._additionalAddresses[network.chainId]?.[2] ?? getMulticall2(network.chainId);
+    this.multicall3 = this._additionalAddresses[network.chainId]?.[3] ?? getMulticall3(network.chainId);
   }
 
   /**
