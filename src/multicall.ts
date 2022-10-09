@@ -227,13 +227,17 @@ function getMulticall3(chainId: number): Multicall | null {
       address,
       block: 1418387,
     },
+    97: {
+      address,
+      block: 17422483,
+    },
     100: {
       address,
       block: 21022491,
     },
-    97: {
+    114: {
       address,
-      block: 17422483,
+      block: 508735,
     },
     137: {
       address,
