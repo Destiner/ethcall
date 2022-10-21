@@ -1,6 +1,6 @@
 {
   "name": "ethcall",
-  "version": "4.8.5",
+  "version": "4.8.6",
   "description": "ethers.js-compatible wrapper around Multicall",
   "author": "Timur Badretdinov <destinerx@gmail.com>",
   "keywords": [
