@@ -80,7 +80,7 @@ function getMulticall(chainId: number): Multicall | null {
     },
     1234: {
       address: '0x176CcFFbAB792Aaa0da7C430FE20a7106d969f66',
-      block: 22
+      block: 22,
     },
     1284: {
       address: '0x83e3b61886770de2F64AAcaD2724ED4f08F7f36B',
