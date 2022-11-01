@@ -30,7 +30,7 @@
     "abi-coder": "^4.0.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "5.38.1",
+    "@typescript-eslint/eslint-plugin": "5.42.0",
     "@typescript-eslint/parser": "5.31.0",
     "eslint": "8.23.0",
     "eslint-import-resolver-typescript": "3.5.1",
