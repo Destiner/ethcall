@@ -122,6 +122,10 @@ function getMulticall(chainId: number): Multicall | null {
       address: '0xfe4980f62d708c2a84d3929859ea226340759320',
       block: 0,
     },
+    73927: {
+      address: '0x9Fa7eAC783F772734337B99D1d5AAeAd75Cd9077',
+      block: 14080409,
+    },
   };
   return addressMap[chainId];
 }
@@ -187,6 +191,10 @@ function getMulticall2(chainId: number): Multicall | null {
     421611: {
       address: '0x96DB1F8055074aB62161B6Ad66Ab6B8679513DeF',
       block: 0,
+    },
+    73927: {
+      address: '0x5Ac86eC2e6332280Eff161c169aCcC345996c340',
+      block: 14080778,
     },
   };
   return addressMap[chainId];
@@ -298,6 +306,10 @@ function getMulticall3(chainId: number): Multicall | null {
     1666600000: {
       address,
       block: 24185753,
+    },
+    73927: {
+      address: '0x138A85647768815078DF1dD85C6121e611381A0b',
+      block: 14080843,
     },
   };
   return addressMap[chainId];
