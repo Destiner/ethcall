@@ -184,6 +184,14 @@ function getMulticall2(chainId: number): Multicall | null {
       address: '0x842eC2c7D803033Edf55E478F461FC547Bc54EB2',
       block: 0,
     },
+    42220: {
+      address: '0xE72f42c64EA3dc05D2D94F541C3a806fa161c49B',
+      block: 9325322,
+    },
+    44787: {
+      address: '0xDd488d424357F83B6Eb42900B65EB59CaFAdB43d',
+      block: 7881917,
+    },
     53935: {
       address: '0x5b24224dC16508DAD755756639E420817DD4c99E',
       block: 62,
