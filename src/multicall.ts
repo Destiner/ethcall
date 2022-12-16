@@ -172,6 +172,10 @@ function getMulticall2(chainId: number): Multicall | null {
       address: '0x470ADB45f5a9ac3550bcFFaD9D990Bf7e2e941c9',
       block: 0,
     },
+    420: {
+      address: '0x9477d5bA4Ed7568eD73da6b2cbcd63D92Bb8eBB1',
+      block: 3441852,
+    },
     1284: {
       address: '0x9256d856A13EB3732d90D88B57F33d0847Fa50bF',
       block: 0,
@@ -282,6 +286,10 @@ function getMulticall3(chainId: number): Multicall | null {
     250: {
       address,
       block: 33001987,
+    },
+    420: {
+      address,
+      block: 49461,
     },
     1284: {
       address,
