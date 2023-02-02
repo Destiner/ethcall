@@ -1,6 +1,8 @@
+import { Signer } from '@ethersproject/abstract-signer';
 import {
   BaseProvider,
   Provider as EthersProvider,
+  TransactionReceipt,
 } from '@ethersproject/providers';
 
 import {
@@ -8,6 +10,7 @@ import {
   all as callAll,
   tryAll as callTryAll,
   tryEach as callTryEach,
+  writeTryAll as callWriteTryAll,
 } from './call';
 import getEthBalance from './calls';
 import {
@@ -107,6 +110,30 @@ class Provider {
     }
     const provider = this.provider as BaseProvider;
     return await callTryAll<T>(provider, multicall, calls, block);
+  }
+
+  async writeTryAll<T>(
+    calls: Call[],
+    signer: Signer,
+    overrides?: Record<string, unknown>,
+  ): Promise<TransactionReceipt> {
+    if (!this.provider) {
+      throw Error('Provider should be initialized before use.');
+    }
+    const multicall = this.getContract('TRY_ALL');
+    if (!multicall) {
+      console.warn(
+        'Multicall2 contract is not available on this network, using deployless version.',
+      );
+    }
+    const provider = this.provider as BaseProvider;
+    return await callWriteTryAll<T>(
+      provider,
+      multicall,
+      calls,
+      signer,
+      overrides,
+    );
   }
 
   /**

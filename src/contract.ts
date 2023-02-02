@@ -27,11 +27,8 @@ class Contract {
     this.abi = abi;
 
     this.functions = abi.filter((x) => x.type === 'function');
-    const callFunctions = this.functions.filter(
-      (x) => x.stateMutability === 'pure' || x.stateMutability === 'view',
-    );
 
-    for (const callFunction of callFunctions) {
+    for (const callFunction of this.functions) {
       const name = callFunction.name;
       if (!name) {
         continue;

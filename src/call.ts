@@ -1,7 +1,8 @@
 import { JsonFragment, JsonFragmentType, Result } from '@ethersproject/abi';
+import { Signer } from '@ethersproject/abstract-signer';
 import { hexConcat } from '@ethersproject/bytes';
 import { Contract } from '@ethersproject/contracts';
-import { BaseProvider } from '@ethersproject/providers';
+import { BaseProvider, TransactionReceipt } from '@ethersproject/providers';
 
 import Abi, { Params } from './abi';
 import deploylessMulticallAbi from './abi/deploylessMulticall.json';
@@ -12,9 +13,9 @@ import multicall2Abi from './abi/multicall2.json';
 import multicall3Abi from './abi/multicall3.json';
 import {
   Multicall,
-  deploylessMulticallBytecode,
   deploylessMulticall2Bytecode,
   deploylessMulticall3Bytecode,
+  deploylessMulticallBytecode,
 } from './multicall';
 import { BlockTag } from './provider';
 
@@ -63,7 +64,7 @@ async function all<T>(
     from: multicall?.address,
   };
   const response = contract
-    ? await contract.aggregate(callRequests, overrides)
+    ? await contract.callStatic.aggregate(callRequests, overrides)
     : await callDeployless(provider, callRequests, block);
   const callCount = calls.length;
   const callResult: T[] = [];
@@ -99,7 +100,7 @@ async function tryAll<T>(
     from: multicall2?.address,
   };
   const response: CallResult[] = contract
-    ? await contract.tryAggregate(false, callRequests, overrides)
+    ? await contract.callStatic.tryAggregate(false, callRequests, overrides)
     : await callDeployless2(provider, callRequests, block);
   const callCount = calls.length;
   const callResult: (T | null)[] = [];
@@ -121,6 +122,32 @@ async function tryAll<T>(
     }
   }
   return callResult;
+}
+
+async function writeTryAll<T>(
+  provider: BaseProvider,
+  multicall2: Multicall | null,
+  calls: Call[],
+  signer: Signer,
+  overrides?: Record<string, unknown>,
+): Promise<TransactionReceipt> {
+  const contract = multicall2
+    ? new Contract(multicall2.address, multicall2Abi, provider)
+    : null;
+  const callRequests = calls.map((call) => {
+    const callData = Abi.encode(call.name, call.inputs, call.params);
+    return {
+      target: call.contract.address,
+      callData,
+    };
+  });
+  const txn = contract
+    ? await contract
+        .connect(signer)
+        .tryAggregate(false, callRequests, overrides)
+    : await callDeployless2(provider, callRequests, undefined, signer);
+  const receipt = await txn.wait();
+  return receipt;
 }
 
 async function tryEach<T>(
@@ -199,13 +226,15 @@ async function callDeployless2(
   provider: BaseProvider,
   callRequests: CallRequest[],
   block?: BlockTag,
+  signer?: Signer,
 ): Promise<Result> {
   const inputAbi: JsonFragment[] = deploylessMulticall2Abi;
   const constructor = inputAbi.find((f) => f.type === 'constructor');
   const inputs = constructor?.inputs || [];
   const args = Abi.encodeConstructor(inputs, [false, callRequests]);
   const data = hexConcat([deploylessMulticall2Bytecode, args]);
-  const callData = await provider.call(
+  const caller = signer ?? provider;
+  const callData = await caller.call(
     {
       data,
     },
@@ -249,4 +278,4 @@ async function callDeployless3(
   return response as CallResult[];
 }
 
-export { Call, CallResult, all, tryAll, tryEach };
+export { Call, CallResult, all, tryAll, tryEach, writeTryAll };

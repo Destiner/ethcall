@@ -32,8 +32,7 @@
         "type": "bytes[]"
       }
     ],
-    "payable": false,
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -250,8 +249,7 @@
         "type": "tuple[]"
       }
     ],
-    "payable": false,
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
