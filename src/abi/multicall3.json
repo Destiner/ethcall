@@ -32,7 +32,7 @@
         "type": "bytes[]"
       }
     ],
-    "stateMutability": "view",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -80,7 +80,7 @@
         "type": "tuple[]"
       }
     ],
-    "stateMutability": "view",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -376,7 +376,7 @@
         "type": "tuple[]"
       }
     ],
-    "stateMutability": "view",
+    "stateMutability": "payable",
     "type": "function"
   },
   {

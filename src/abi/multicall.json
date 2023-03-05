@@ -33,8 +33,7 @@
         "type": "bytes[]"
       }
     ],
-    "payable": false,
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
