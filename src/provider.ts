@@ -1,7 +1,4 @@
-import {
-  BaseProvider,
-  Provider as EthersProvider,
-} from '@ethersproject/providers';
+import { Provider as EthersProvider } from 'ethers';
 
 import {
   Call,
@@ -80,7 +77,7 @@ class Provider {
       throw Error('Provider should be initialized before use.');
     }
     const multicall = this.#getContract('BASIC', overrides?.blockTag);
-    const provider = this.#provider as BaseProvider;
+    const provider = this.#provider;
     return await callAll<T>(provider, multicall, calls, overrides);
   }
 
@@ -99,7 +96,7 @@ class Provider {
       throw Error('Provider should be initialized before use.');
     }
     const multicall = this.#getContract('TRY_ALL', overrides?.blockTag);
-    const provider = this.#provider as BaseProvider;
+    const provider = this.#provider;
     return await callTryAll<T>(provider, multicall, calls, overrides);
   }
 
@@ -121,7 +118,7 @@ class Provider {
       throw Error('Provider should be initialized before use.');
     }
     const multicall = this.#getContract('TRY_EACH', overrides?.blockTag);
-    const provider = this.#provider as BaseProvider;
+    const provider = this.#provider;
     const failableCalls = calls.map((call, index) => {
       return {
         ...call,

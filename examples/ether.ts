@@ -1,4 +1,4 @@
-import { getDefaultProvider } from '@ethersproject/providers';
+import { getDefaultProvider } from 'ethers';
 
 import { Provider } from '../src';
 

@@ -1,5 +1,5 @@
-import { JsonFragmentType, Result } from '@ethersproject/abi';
 import { Coder } from 'abi-coder';
+import { JsonFragmentType, Result } from 'ethers';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Params = any[];
@@ -59,8 +59,8 @@ class Abi {
     const coder = new Coder(abi);
 
     const functionOutput = coder.decodeFunctionOutput(name, data);
-    const result = outputs.map(
-      (output) => functionOutput.values[output.name || ''],
+    const result = Result.fromItems(
+      outputs.map((output) => functionOutput.values[output.name || '']),
     );
     for (const [name, value] of Object.entries(functionOutput.values)) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
