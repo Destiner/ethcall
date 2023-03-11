@@ -12,16 +12,15 @@ npm install ethcall
 
 ## API
 
-* `Contract`
-  * `constructor(address, abi)`: creates Contract instance
-  * `CALL_FUNC_NAME`: yields a `call` object; usage is similar to `ethers` Contract class
-* `Provider`
-  * `constructor()`: creates Provider instance
-  * `init(ethersProvider)`: initializes a provider; should be called once before any other request
-  * `all(calls)`: executes all calls in a single request
-  * `tryAll(calls)`: executes all calls in a single request. Ignores reverted calls and returns `null` value in place of return data (wrapper on top of `tryAggregate` method)
-  * `tryEach(calls, canFail)`: executes all calls in a single request. Ignores reverted calls and returns `null` value in place of return data for the calls that are allowed to fail (wrapper on top of `aggregate3` method)
-  * `getEthBalance(address)`: returns account ether balance
+- `Contract`
+  - `constructor(address, abi)`: creates Contract instance
+  - `CALL_FUNC_NAME`: yields a `call` object; usage is similar to `ethers` Contract class
+- `Provider`
+  - `constructor(provider, chainId)`: creates a Provider instance
+  - `all(calls)`: executes all calls in a single request
+  - `tryAll(calls)`: executes all calls in a single request. Ignores reverted calls and returns `null` value in place of return data (wrapper on top of `tryAggregate` method)
+  - `tryEach(calls, canFail)`: executes all calls in a single request. Ignores reverted calls and returns `null` value in place of return data for the calls that are allowed to fail (wrapper on top of `aggregate3` method)
+  - `getEthBalance(address)`: returns account ether balance
 
 ## Example
 
@@ -39,8 +38,7 @@ const provider = new InfuraProvider('mainnet', infuraKey);
 const daiAddress = '0x6b175474e89094c44da98b954eedeac495271d0f';
 
 async function call() {
-  const ethcallProvider = new Provider();
-  await ethcallProvider.init(provider);
+  const ethcallProvider = new Provider(provider, 1);
 
   const daiContract = new Contract(daiAddress, erc20Abi);
 
