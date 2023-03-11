@@ -21,6 +21,13 @@ type CallType = 'BASIC' | 'TRY_ALL' | 'TRY_EACH';
 
 type BlockTag = number | 'latest' | 'pending';
 
+interface ProviderConfig {
+  multicall: Partial<Multicall>;
+  overrides: Partial<{
+    from: string;
+  }>;
+}
+
 /**
  * Represents a Multicall provider. Used to execute multiple Calls.
  */
@@ -29,17 +36,24 @@ class Provider {
   multicall: Multicall | null;
   multicall2: Multicall | null;
   multicall3: Multicall | null;
+  config: Partial<ProviderConfig>;
 
   /**
    * Create a provider.
    * @param provider ethers provider
    * @param chainId Network chain
+   * @param config Provider configuration
    */
-  constructor(provider: EthersProvider, chainId = 1) {
+  constructor(
+    provider: EthersProvider,
+    chainId = 1,
+    config?: Partial<ProviderConfig>,
+  ) {
     this.provider = provider;
-    this.multicall = getMulticall(chainId);
-    this.multicall2 = getMulticall2(chainId);
-    this.multicall3 = getMulticall3(chainId);
+    this.config = config || {};
+    this.multicall = this.getMulticall(chainId, 1);
+    this.multicall2 = this.getMulticall(chainId, 2);
+    this.multicall3 = this.getMulticall(chainId, 3);
   }
 
   /**
@@ -74,7 +88,8 @@ class Provider {
       );
     }
     const provider = this.provider as BaseProvider;
-    return await callAll<T>(provider, multicall, calls, block);
+    const from = this.config.overrides?.from;
+    return await callAll<T>(provider, multicall, calls, block, from);
   }
 
   /**
@@ -95,7 +110,8 @@ class Provider {
       );
     }
     const provider = this.provider as BaseProvider;
-    return await callTryAll<T>(provider, multicall, calls, block);
+    const from = this.config.overrides?.from;
+    return await callTryAll<T>(provider, multicall, calls, block, from);
   }
 
   /**
@@ -128,7 +144,14 @@ class Provider {
         canFail: canFail[index],
       };
     });
-    return await callTryEach<T>(provider, multicall, failableCalls, block);
+    const from = this.config.overrides?.from;
+    return await callTryEach<T>(
+      provider,
+      multicall,
+      failableCalls,
+      block,
+      from,
+    );
   }
 
   getContract(call: CallType, block?: BlockTag): Multicall | null {
@@ -162,6 +185,35 @@ class Provider {
       return true;
     }
     return multicall.block < block;
+  }
+
+  getMulticall(chainId: number, version: 1 | 2 | 3): Multicall | null {
+    function getRegistryMulticall(
+      chainId: number,
+      version: 1 | 2 | 3,
+    ): Multicall | null {
+      switch (version) {
+        case 1:
+          return getMulticall(chainId);
+        case 2:
+          return getMulticall2(chainId);
+        case 3:
+          return getMulticall3(chainId);
+      }
+    }
+
+    const customMulticall = this.config?.multicall;
+    if (!customMulticall) {
+      return getRegistryMulticall(chainId, version);
+    }
+    const address = customMulticall.address;
+    if (!address) {
+      return getRegistryMulticall(chainId, version);
+    }
+    return {
+      address,
+      block: customMulticall.block || 0,
+    };
   }
 }
 

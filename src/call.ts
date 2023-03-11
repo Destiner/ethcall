@@ -47,6 +47,7 @@ async function all<T>(
   multicall: Multicall | null,
   calls: Call[],
   block?: BlockTag,
+  from?: string,
 ): Promise<T[]> {
   const contract = multicall
     ? new Contract(multicall.address, multicallAbi, provider)
@@ -60,7 +61,7 @@ async function all<T>(
   });
   const overrides = {
     blockTag: block,
-    from: multicall?.address,
+    from,
   };
   const response = contract
     ? await contract.aggregate(callRequests, overrides)
@@ -83,6 +84,7 @@ async function tryAll<T>(
   multicall2: Multicall | null,
   calls: Call[],
   block?: BlockTag,
+  from?: string,
 ): Promise<(T | null)[]> {
   const contract = multicall2
     ? new Contract(multicall2.address, multicall2Abi, provider)
@@ -96,7 +98,7 @@ async function tryAll<T>(
   });
   const overrides = {
     blockTag: block,
-    from: multicall2?.address,
+    from,
   };
   const response: CallResult[] = contract
     ? await contract.tryAggregate(false, callRequests, overrides)
@@ -128,6 +130,7 @@ async function tryEach<T>(
   multicall3: Multicall | null,
   calls: FailableCall[],
   block?: BlockTag,
+  from?: string,
 ): Promise<(T | null)[]> {
   const contract = multicall3
     ? new Contract(multicall3.address, multicall3Abi, provider)
@@ -142,7 +145,7 @@ async function tryEach<T>(
   });
   const overrides = {
     blockTag: block,
-    from: multicall3?.address,
+    from,
   };
   const response: CallResult[] = contract
     ? await contract.aggregate3(callRequests, overrides)
