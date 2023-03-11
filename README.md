@@ -16,7 +16,7 @@ npm install ethcall
   - `constructor(address, abi)`: creates Contract instance
   - `CALL_FUNC_NAME`: yields a `call` object; usage is similar to `ethers` Contract class
 - `Provider`
-  - `constructor(chainId, provider)`: creates a Provider instance
+  - `constructor(chainId, provider, config)`: creates a Provider instance
   - `all(calls)`: executes all calls in a single request
   - `tryAll(calls)`: executes all calls in a single request. Ignores reverted calls and returns `null` value in place of return data (wrapper on top of `tryAggregate` method)
   - `tryEach(calls, canFail)`: executes all calls in a single request. Ignores reverted calls and returns `null` value in place of return data for the calls that are allowed to fail (wrapper on top of `aggregate3` method)
@@ -47,7 +47,9 @@ async function call() {
   const ethBalanceCall = ethcallProvider.getEthBalance(uniswapDaiPool);
   const daiBalanceCall = daiContract.balanceOf(uniswapDaiPool);
 
-  const data = await ethcallProvider.all([ethBalanceCall, daiBalanceCall]);
+  const data = await ethcallProvider.all([ethBalanceCall, daiBalanceCall], {
+    blockTag: 'latest',
+  });
 
   const ethBalance = data[0];
   const daiBalance = data[1];
