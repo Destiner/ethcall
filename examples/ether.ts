@@ -4,7 +4,7 @@ import { Provider } from '../src';
 
 async function run(): Promise<void> {
   const provider = getDefaultProvider('mainnet');
-  const ethcallProvider = new Provider(provider, 1);
+  const ethcallProvider = new Provider(1, provider);
 
   const accounts = [
     '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',

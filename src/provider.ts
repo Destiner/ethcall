@@ -43,8 +43,8 @@ class Provider {
    * @param config Provider configuration
    */
   constructor(
+    chainId: number,
     provider: EthersProvider,
-    chainId = 1,
     config?: Partial<ProviderConfig>,
   ) {
     this.#provider = provider;

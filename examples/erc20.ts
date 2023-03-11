@@ -6,7 +6,7 @@ import erc20Abi from './abi/erc20.json';
 
 async function run(): Promise<void> {
   const provider = getDefaultProvider('mainnet');
-  const ethcallProvider = new Provider(provider, 1);
+  const ethcallProvider = new Provider(1, provider);
 
   const daiAddress = '0x6B175474E89094C44Da98b954EedeAC495271d0F';
   const daiContract = new Contract(daiAddress, erc20Abi);
