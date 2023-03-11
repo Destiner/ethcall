@@ -48,7 +48,7 @@ class Provider {
    * @returns Ether balance fetching call
    */
   getEthBalance(address: string): Call {
-    const multicall = this.multicall || this.multicall2 || this.multicall3;
+    const multicall = this.multicall3 || this.multicall2 || this.multicall;
     if (!multicall) {
       throw Error('Multicall contract is not available on this network.');
     }
