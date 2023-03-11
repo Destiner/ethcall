@@ -1,4 +1,4 @@
-import { BaseProvider, Network } from '@ethersproject/providers';
+import { AbstractProvider, Network } from 'ethers';
 import { describe, test, expect } from 'vitest';
 
 import Provider from '../src/provider';
