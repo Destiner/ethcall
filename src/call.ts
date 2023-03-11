@@ -64,7 +64,7 @@ async function all<T>(
     };
   });
   const response = contract
-    ? await contract.aggregate(callRequests, overrides)
+    ? await contract.aggregate(callRequests, overrides || {})
     : await callDeployless(provider, callRequests, overrides?.blockTag);
   const callCount = calls.length;
   const callResult: T[] = [];
@@ -96,7 +96,7 @@ async function tryAll<T>(
     };
   });
   const response: CallResult[] = contract
-    ? await contract.tryAggregate(false, callRequests, overrides)
+    ? await contract.tryAggregate(false, callRequests, overrides || {})
     : await callDeployless2(provider, callRequests, overrides?.blockTag);
   const callCount = calls.length;
   const callResult: (T | null)[] = [];
@@ -138,7 +138,7 @@ async function tryEach<T>(
     };
   });
   const response: CallResult[] = contract
-    ? await contract.aggregate3(callRequests, overrides)
+    ? await contract.aggregate3(callRequests, overrides || {})
     : await callDeployless3(provider, callRequests, overrides?.blockTag);
   const callCount = calls.length;
   const callResult: (T | null)[] = [];
