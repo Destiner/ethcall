@@ -113,7 +113,7 @@ function generateUniqueName(names: Set<string>): string {
   while (names.has(i.toString())) {
     i++;
   }
-  return `param-${Math.random().toString().substring(2)}`;
+  return `param${Math.random().toString().substring(2)}`;
 }
 
 export { Params };
