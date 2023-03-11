@@ -5,6 +5,7 @@ import {
 
 import {
   Call,
+  CallOverrides,
   all as callAll,
   tryAll as callTryAll,
   tryEach as callTryEach,
@@ -23,9 +24,6 @@ type BlockTag = number | 'latest' | 'pending';
 
 interface ProviderConfig {
   multicall: Partial<Multicall>;
-  overrides: Partial<{
-    from: string;
-  }>;
 }
 
 /**
@@ -77,14 +75,13 @@ class Provider {
    * @param block Block number for this call
    * @returns List of fetched data
    */
-  async all<T>(calls: Call[], block?: BlockTag): Promise<T[]> {
+  async all<T>(calls: Call[], overrides?: CallOverrides): Promise<T[]> {
     if (!this.#provider) {
       throw Error('Provider should be initialized before use.');
     }
-    const multicall = this.#getContract('BASIC', block);
+    const multicall = this.#getContract('BASIC', overrides?.blockTag);
     const provider = this.#provider as BaseProvider;
-    const from = this.#config.overrides?.from;
-    return await callAll<T>(provider, multicall, calls, block, from);
+    return await callAll<T>(provider, multicall, calls, overrides);
   }
 
   /**
@@ -94,14 +91,16 @@ class Provider {
    * @param block Block number for this call
    * @returns List of fetched data. Failed calls will result in null values.
    */
-  async tryAll<T>(calls: Call[], block?: BlockTag): Promise<(T | null)[]> {
+  async tryAll<T>(
+    calls: Call[],
+    overrides?: CallOverrides,
+  ): Promise<(T | null)[]> {
     if (!this.#provider) {
       throw Error('Provider should be initialized before use.');
     }
-    const multicall = this.#getContract('TRY_ALL', block);
+    const multicall = this.#getContract('TRY_ALL', overrides?.blockTag);
     const provider = this.#provider as BaseProvider;
-    const from = this.#config.overrides?.from;
-    return await callTryAll<T>(provider, multicall, calls, block, from);
+    return await callTryAll<T>(provider, multicall, calls, overrides);
   }
 
   /**
@@ -116,12 +115,12 @@ class Provider {
   async tryEach<T>(
     calls: Call[],
     canFail: boolean[],
-    block?: BlockTag,
+    overrides?: CallOverrides,
   ): Promise<(T | null)[]> {
     if (!this.#provider) {
       throw Error('Provider should be initialized before use.');
     }
-    const multicall = this.#getContract('TRY_EACH', block);
+    const multicall = this.#getContract('TRY_EACH', overrides?.blockTag);
     const provider = this.#provider as BaseProvider;
     const failableCalls = calls.map((call, index) => {
       return {
@@ -129,14 +128,7 @@ class Provider {
         canFail: canFail[index],
       };
     });
-    const from = this.#config.overrides?.from;
-    return await callTryEach<T>(
-      provider,
-      multicall,
-      failableCalls,
-      block,
-      from,
-    );
+    return await callTryEach<T>(provider, multicall, failableCalls, overrides);
   }
 
   #getContract(call: CallType, block?: BlockTag): Multicall | null {
