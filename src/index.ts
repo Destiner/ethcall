@@ -1,5 +1,5 @@
-import { Call } from './call';
-import Contract from './contract';
-import Provider, { BlockTag } from './provider';
+import { Call } from './call.js';
+import Contract from './contract.js';
+import Provider, { BlockTag } from './provider.js';
 
 export { BlockTag, Call, Contract, Provider };
