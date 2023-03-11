@@ -1,6 +1,6 @@
 import { getDefaultProvider } from '@ethersproject/providers';
 
-import { Provider } from '../src';
+import { Provider } from '../src/index.js';
 
 async function run(): Promise<void> {
   const provider = getDefaultProvider('mainnet');

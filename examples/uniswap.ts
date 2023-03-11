@@ -1,8 +1,8 @@
 import { getDefaultProvider } from '@ethersproject/providers';
 
-import { Contract, Provider } from '../src';
+import { Contract, Provider } from '../src/index.js';
 
-import pairAbi from './abi/uniswapV2Pair.json';
+import pairAbi from './abi/uniswapV2Pair.json' assert { type: 'json' };
 
 async function run(): Promise<void> {
   const provider = getDefaultProvider('mainnet');

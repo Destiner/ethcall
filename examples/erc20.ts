@@ -1,8 +1,8 @@
 import { getDefaultProvider } from '@ethersproject/providers';
 
-import { Contract, Provider } from '../src';
+import { Contract, Provider } from '../src/index.js';
 
-import erc20Abi from './abi/erc20.json';
+import erc20Abi from './abi/erc20.json' assert { type: 'json' };
 
 async function run(): Promise<void> {
   const provider = getDefaultProvider('mainnet');

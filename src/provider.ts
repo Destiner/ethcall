@@ -9,14 +9,14 @@ import {
   all as callAll,
   tryAll as callTryAll,
   tryEach as callTryEach,
-} from './call';
-import getEthBalance from './calls';
+} from './call.js';
+import getEthBalance from './calls.js';
 import {
   Multicall,
   getMulticall,
   getMulticall2,
   getMulticall3,
-} from './multicall';
+} from './multicall.js';
 
 type CallType = 'BASIC' | 'TRY_ALL' | 'TRY_EACH';
 

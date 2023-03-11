@@ -3,20 +3,20 @@ import { hexConcat } from '@ethersproject/bytes';
 import { Contract } from '@ethersproject/contracts';
 import { BaseProvider } from '@ethersproject/providers';
 
-import Abi, { Params } from './abi';
-import deploylessMulticallAbi from './abi/deploylessMulticall.json';
-import deploylessMulticall2Abi from './abi/deploylessMulticall2.json';
-import deploylessMulticall3Abi from './abi/deploylessMulticall3.json';
-import multicallAbi from './abi/multicall.json';
-import multicall2Abi from './abi/multicall2.json';
-import multicall3Abi from './abi/multicall3.json';
+import Abi, { Params } from './abi.js';
+import deploylessMulticallAbi from './abi/deploylessMulticall.json' assert { type: 'json' };
+import deploylessMulticall2Abi from './abi/deploylessMulticall2.json' assert { type: 'json' };
+import deploylessMulticall3Abi from './abi/deploylessMulticall3.json' assert { type: 'json' };
+import multicallAbi from './abi/multicall.json' assert { type: 'json' };
+import multicall2Abi from './abi/multicall2.json' assert { type: 'json' };
+import multicall3Abi from './abi/multicall3.json' assert { type: 'json' };
 import {
   Multicall,
   deploylessMulticallBytecode,
   deploylessMulticall2Bytecode,
   deploylessMulticall3Bytecode,
-} from './multicall';
-import { BlockTag } from './provider';
+} from './multicall.js';
+import { BlockTag } from './provider.js';
 
 interface CallRequest {
   target: string;

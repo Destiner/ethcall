@@ -1,7 +1,7 @@
 import { JsonFragment } from '@ethersproject/abi';
 
-import { Params } from './abi';
-import { Call } from './call';
+import { Params } from './abi.js';
+import { Call } from './call.js';
 
 /**
  * Represents a deployed contract. Generates a Call per each request.

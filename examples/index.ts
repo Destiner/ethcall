@@ -1,7 +1,7 @@
-import aave from './aave';
-import erc20 from './erc20';
-import ether from './ether';
-import uniswap from './uniswap';
+import aave from './aave.js';
+import erc20 from './erc20.js';
+import ether from './ether.js';
+import uniswap from './uniswap.js';
 
 async function run(): Promise<void> {
   await aave();
