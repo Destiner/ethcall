@@ -3,12 +3,9 @@ import { describe, test, expect } from 'vitest';
 
 import Provider from '../src/provider';
 
-class FakeProvider extends BaseProvider {
+class FakeProvider extends AbstractProvider {
   override async getNetwork(): Promise<Network> {
-    return {
-      name: 'FakeNetwork',
-      chainId: -1,
-    };
+    return new Network('FakeNetwork', -1);
   }
 }
 
