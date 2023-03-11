@@ -11,9 +11,8 @@ import { Call } from './call';
  * daiContract.balanceOf(address); // returns a Call object
  */
 class Contract {
-  address: string;
-  abi: JsonFragment[];
-  functions: JsonFragment[];
+  #address: string;
+  #functions: JsonFragment[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: Call | any;
 
@@ -23,11 +22,10 @@ class Contract {
    * @param abi ABI of the contract
    */
   constructor(address: string, abi: JsonFragment[]) {
-    this.address = address;
-    this.abi = abi;
+    this.#address = address;
 
-    this.functions = abi.filter((x) => x.type === 'function');
-    const callFunctions = this.functions.filter(
+    this.#functions = abi.filter((x) => x.type === 'function');
+    const callFunctions = this.#functions.filter(
       (x) => x.stateMutability === 'pure' || x.stateMutability === 'view',
     );
 
@@ -36,7 +34,7 @@ class Contract {
       if (!name) {
         continue;
       }
-      const getCall = makeCallFunction(this, name);
+      const getCall = this.#makeCallFunction(name);
       if (!this[name]) {
         Object.defineProperty(this, name, {
           enumerable: true,
@@ -46,24 +44,24 @@ class Contract {
       }
     }
   }
-}
 
-function makeCallFunction(contract: Contract, name: string) {
-  return (...params: Params): Call => {
-    const address = contract.address;
-    const func = contract.functions.find((f) => f.name === name);
-    const inputs = func?.inputs || [];
-    const outputs = func?.outputs || [];
-    return {
-      contract: {
-        address,
-      },
-      name,
-      inputs,
-      outputs,
-      params,
+  #makeCallFunction(name: string) {
+    return (...params: Params): Call => {
+      const address = this.#address;
+      const func = this.#functions.find((f) => f.name === name);
+      const inputs = func?.inputs || [];
+      const outputs = func?.outputs || [];
+      return {
+        contract: {
+          address,
+        },
+        name,
+        inputs,
+        outputs,
+        params,
+      };
     };
-  };
+  }
 }
 
 export default Contract;
