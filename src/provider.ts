@@ -17,8 +17,6 @@ import {
   getMulticall3,
 } from './multicall';
 
-const DEFAULT_CHAIN_ID = 1;
-
 type CallType = 'BASIC' | 'TRY_ALL' | 'TRY_EACH';
 
 type BlockTag = number | 'latest' | 'pending';
@@ -34,23 +32,14 @@ class Provider {
 
   /**
    * Create a provider.
-   */
-  constructor() {
-    this.multicall = getMulticall(DEFAULT_CHAIN_ID);
-    this.multicall2 = getMulticall2(DEFAULT_CHAIN_ID);
-    this.multicall3 = getMulticall3(DEFAULT_CHAIN_ID);
-  }
-
-  /**
-   * Initialize the provider. Should be called once before making any requests.
    * @param provider ethers provider
+   * @param chainId Network chain
    */
-  async init(provider: EthersProvider): Promise<void> {
+  constructor(provider: EthersProvider, chainId = 1) {
     this.provider = provider;
-    const network = await provider.getNetwork();
-    this.multicall = getMulticall(network.chainId);
-    this.multicall2 = getMulticall2(network.chainId);
-    this.multicall3 = getMulticall3(network.chainId);
+    this.multicall = getMulticall(chainId);
+    this.multicall2 = getMulticall2(chainId);
+    this.multicall3 = getMulticall3(chainId);
   }
 
   /**

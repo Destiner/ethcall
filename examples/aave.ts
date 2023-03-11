@@ -6,8 +6,7 @@ import poolAbi from './abi/aaveV2Pool.json';
 
 async function run(): Promise<void> {
   const provider = getDefaultProvider('mainnet');
-  const ethcallProvider = new Provider();
-  await ethcallProvider.init(provider);
+  const ethcallProvider = new Provider(provider, 1);
 
   const stablecoins = [
     '0x4Fabb145d64652a948d72533023f6E7A623C7C53',

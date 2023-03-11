@@ -6,8 +6,7 @@ import erc20Abi from './abi/erc20.json';
 
 async function run(): Promise<void> {
   const provider = getDefaultProvider('mainnet');
-  const ethcallProvider = new Provider();
-  await ethcallProvider.init(provider);
+  const ethcallProvider = new Provider(provider, 1);
 
   const daiAddress = '0x6B175474E89094C44Da98b954EedeAC495271d0F';
   const daiContract = new Contract(daiAddress, erc20Abi);
@@ -18,9 +17,7 @@ async function run(): Promise<void> {
     '0x5777d92f208679DB4b9778590Fa3CAB3aC9e2168',
   ];
 
-  const calls = accounts.map((account) =>
-    daiContract.balanceOf(account),
-  );
+  const calls = accounts.map((account) => daiContract.balanceOf(account));
   const balances = await ethcallProvider.all(calls);
   console.log(balances);
 }

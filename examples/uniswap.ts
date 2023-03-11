@@ -6,8 +6,7 @@ import pairAbi from './abi/uniswapV2Pair.json';
 
 async function run(): Promise<void> {
   const provider = getDefaultProvider('mainnet');
-  const ethcallProvider = new Provider();
-  await ethcallProvider.init(provider);
+  const ethcallProvider = new Provider(provider, 1);
 
   const pairs = [
     '0xAE461cA67B15dc8dc81CE7615e0320dA1A9aB8D5',
