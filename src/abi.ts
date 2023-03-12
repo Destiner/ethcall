@@ -59,8 +59,8 @@ class Abi {
     const coder = new Coder(abi);
 
     const functionOutput = coder.decodeFunctionOutput(name, data);
-    const result = Result.fromItems(
-      outputs.map((output) => functionOutput.values[output.name || '']),
+    const result = outputs.map(
+      (output) => functionOutput.values[output.name || ''],
     );
     for (const [name, value] of Object.entries(functionOutput.values)) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -75,7 +75,7 @@ class Abi {
       }
       result[key] = value;
     }
-    return result;
+    return result as unknown as Result;
   }
 }
 
