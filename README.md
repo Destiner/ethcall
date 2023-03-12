@@ -10,6 +10,8 @@ Powered by [abi-coder](https://github.com/Destiner/abi-coder) and [ethers.js](ht
 npm install ethcall
 ```
 
+> This package requires ethers V6. If you use ethers V5, you need to install ethcall V5.
+
 > This package is a pure ESM package. Follow [this guide](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) for more info.
 
 ## API
