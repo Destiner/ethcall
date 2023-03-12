@@ -31,10 +31,10 @@ npm install ethcall
 > Also see [examples](./examples) for reference.
 
 ```js
-import { InfuraProvider } from '@ethersproject/providers';
 import { Contract, Provider } from 'ethcall';
+import { InfuraProvider } from 'ethers';
 
-import erc20Abi from './abi/erc20.json';
+import erc20Abi from './abi/erc20.json' assert { type: 'json' };
 
 const infuraKey = 'INSERT_YOUR_KEY_HERE';
 const provider = new InfuraProvider('mainnet', infuraKey);
