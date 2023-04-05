@@ -7,13 +7,13 @@ import {
   concat,
 } from 'ethers';
 
-import Abi, { Params } from './abi.js';
 import deploylessMulticallAbi from './abi/deploylessMulticall.json' assert { type: 'json' };
 import deploylessMulticall2Abi from './abi/deploylessMulticall2.json' assert { type: 'json' };
 import deploylessMulticall3Abi from './abi/deploylessMulticall3.json' assert { type: 'json' };
 import multicallAbi from './abi/multicall.json' assert { type: 'json' };
 import multicall2Abi from './abi/multicall2.json' assert { type: 'json' };
 import multicall3Abi from './abi/multicall3.json' assert { type: 'json' };
+import Abi, { Params } from './abi.js';
 import {
   Multicall,
   deploylessMulticallBytecode,
