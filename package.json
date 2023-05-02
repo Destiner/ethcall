@@ -33,7 +33,7 @@
     "eslint": "8.31.0",
     "eslint-import-resolver-typescript": "3.5.5",
     "eslint-plugin-import": "2.27.5",
-    "prettier": "2.8.3",
+    "prettier": "2.8.8",
     "ts-node": "10.9.1",
     "typescript": "5.0.4",
     "vitest": "0.29.8"
