@@ -70,6 +70,10 @@ function getMulticall(chainId: number): Multicall | null {
       address: '0x543528e13eac69206e87334cca971503a552438b',
       block: 0,
     },
+    324: {
+      address: '0x52806DC8c5Cb95a560039409FE2e1C29d9eBb22f',
+      block: 9531405,
+    },
     592: {
       address: '0x57F40bbBCc11BE5471a8f9bF1dE56816a1CF08f6',
       block: 0,
@@ -171,6 +175,10 @@ function getMulticall2(chainId: number): Multicall | null {
     250: {
       address: '0x470ADB45f5a9ac3550bcFFaD9D990Bf7e2e941c9',
       block: 0,
+    },
+    324: {
+      address: '0xDED0Aa78681A5AbF85D830D4478cf4acF00Ec4a4',
+      block: 9531409,
     },
     420: {
       address: '0x9477d5bA4Ed7568eD73da6b2cbcd63D92Bb8eBB1',
@@ -286,6 +294,10 @@ function getMulticall3(chainId: number): Multicall | null {
     250: {
       address,
       block: 33001987,
+    },
+    324: {
+      address: '0x413fEb613604D46586c22801949A5b88b224c260',
+      block: 9531414,
     },
     420: {
       address,
