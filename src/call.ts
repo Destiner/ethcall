@@ -1,11 +1,5 @@
-import {
-  Provider,
-  Contract,
-  JsonFragment,
-  JsonFragmentType,
-  Result,
-  concat,
-} from 'ethers';
+import type { JsonFragment, JsonFragmentType, Provider } from 'ethers';
+import { Contract, Result, concat } from 'ethers';
 
 import deploylessMulticallAbi from './abi/deploylessMulticall.json' assert { type: 'json' };
 import deploylessMulticall2Abi from './abi/deploylessMulticall2.json' assert { type: 'json' };
@@ -13,14 +7,15 @@ import deploylessMulticall3Abi from './abi/deploylessMulticall3.json' assert { t
 import multicallAbi from './abi/multicall.json' assert { type: 'json' };
 import multicall2Abi from './abi/multicall2.json' assert { type: 'json' };
 import multicall3Abi from './abi/multicall3.json' assert { type: 'json' };
-import Abi, { Params } from './abi.js';
+import type { Params } from './abi.js';
+import Abi from './abi.js';
+import type { Multicall } from './multicall.js';
 import {
-  Multicall,
-  deploylessMulticallBytecode,
   deploylessMulticall2Bytecode,
   deploylessMulticall3Bytecode,
+  deploylessMulticallBytecode,
 } from './multicall.js';
-import { BlockTag } from './provider.js';
+import type { BlockTag } from './provider.js';
 
 interface CallRequest {
   target: string;
@@ -240,4 +235,5 @@ async function callDeployless3(
   return response;
 }
 
-export { Call, CallOverrides, CallResult, all, tryAll, tryEach };
+export { all, tryAll, tryEach };
+export type { Call, CallOverrides, CallResult };

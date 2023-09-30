@@ -1,19 +1,14 @@
-import { Provider as EthersProvider } from 'ethers';
+import type { Provider as EthersProvider } from 'ethers';
 
+import type { Call, CallOverrides } from './call.js';
 import {
-  Call,
-  CallOverrides,
   all as callAll,
   tryAll as callTryAll,
   tryEach as callTryEach,
 } from './call.js';
 import getEthBalance from './calls.js';
-import {
-  Multicall,
-  getMulticall,
-  getMulticall2,
-  getMulticall3,
-} from './multicall.js';
+import type { Multicall } from './multicall.js';
+import { getMulticall, getMulticall2, getMulticall3 } from './multicall.js';
 
 type CallType = 'BASIC' | 'TRY_ALL' | 'TRY_EACH';
 

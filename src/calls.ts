@@ -1,5 +1,5 @@
 import multicallAbi from './abi/multicall.json' assert { type: 'json' };
-import { Call } from './call.js';
+import type { Call } from './call.js';
 import Contract from './contract.js';
 
 function getEthBalance(address: string, multicallAddress: string): Call {

@@ -1,5 +1,6 @@
 import { Coder } from 'abi-coder';
-import { JsonFragmentType, Result } from 'ethers';
+import type { JsonFragmentType } from 'ethers';
+import { Result } from 'ethers';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Params = any[];
@@ -116,6 +117,5 @@ function generateUniqueName(names: Set<string>): string {
   return `param${Math.random().toString().substring(2)}`;
 }
 
-export { Params };
-
+export type { Params };
 export default Abi;
