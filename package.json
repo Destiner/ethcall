@@ -35,7 +35,7 @@
     "prettier": "3.0.3",
     "ts-node": "10.9.1",
     "typescript": "5.2.2",
-    "vitest": "0.34.1"
+    "vitest": "0.34.6"
   },
   "peerDependencies": {
     "ethers": "^6.0.0"
