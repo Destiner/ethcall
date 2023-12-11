@@ -4,363 +4,417 @@ interface Multicall {
   block: number;
 }
 
-function getMulticall(chainId: number): Multicall | null {
-  const addressMap: Record<number, Multicall | null> = {
-    1: {
+enum ChainId {
+  Ethereum = 1,
+  Ropsten = 3, //! deprecated
+  Rinkeby = 4, //! deprecated
+  Gorli = 5,
+  Optimism = 10,
+  Flare = 14,
+  Coston = 16,
+  Songbird = 19,
+  Cronos = 25,
+  Lukso = 42,
+  Binance = 56,
+  OptimismKovan = 69,
+  BinanceTestnet = 97,
+  Gnosis = 100,
+  Velas = 106,
+  ThunderCore = 108,
+  Coston2 = 114,
+  Huobi = 128,
+  Polygon = 137,
+  Fantom = 250,
+  Boba = 288,
+  KCC = 321,
+  ZkSync = 324,
+  Astar = 592,
+  Callisto = 820,
+  Step = 1234,
+  Moonbeam = 1284,
+  Moonriver = 1285,
+  MoonbaseAlpha = 1287,
+  Geth = 1337,
+  Kava = 2222,
+  YuanChain = 3999,
+  FantomTestnet = 4002,
+  LoTeX = 4689,
+  GoChain = 31337,
+  ArbitrumOne = 42161,
+  OasisEmerald = 42262,
+  Avalanche = 43114,
+  Mumbai = 80001,
+  Base = 8453,
+  AvalancheFuji = 43113,
+  MixinVirtualMachine = 73927,
+  OptimismGoerli = 420,
+  Celo = 42220,
+  CeloAlfajores = 44787,
+  DFK = 53935,
+  ArbitrumRinkeby = 421611,
+  Aurora = 1313161554,
+  Harmony = 1666600000,
+}
+
+type MulticallMap = { [key in ChainId]?: Multicall };
+
+function getMulticall(chainId: ChainId): Multicall | null {
+  const addressMap: MulticallMap = {
+    [ChainId.Ethereum]: {
       address: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
       block: 7929876,
     },
-    3: {
+    [ChainId.Ropsten]: {
       address: '0x53c43764255c17bd724f74c4ef150724ac50a3ed',
       block: 7980811,
     },
-    4: {
+    [ChainId.Rinkeby]: {
       address: '0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821',
       block: 4534725,
     },
-    5: {
+    [ChainId.Gorli]: {
       address: '0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e',
       block: 743550,
     },
-    10: {
+    [ChainId.Optimism]: {
       address: '0x266557A864680A1401A3506c0eb72934BD13Bf59',
       block: 0,
     },
-    25: {
+    [ChainId.Cronos]: {
       address: '0x5e954f5972EC6BFc7dECd75779F10d848230345F',
       block: 0,
     },
-    42: {
+    [ChainId.Lukso]: {
       address: '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
       block: 11482433,
     },
-    56: {
+    [ChainId.Binance]: {
       address: '0xe21a5b299756ee452a6a871ff29852862fc99be9',
       block: 0,
     },
-    100: {
+    [ChainId.Gnosis]: {
       address: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
       block: 0,
     },
-    106: {
+    [ChainId.Velas]: {
       address: '0x0747CFe82D3Bee998f634569FE2B0005dF9d8EDE',
       block: 0,
     },
-    108: {
+    [ChainId.ThunderCore]: {
       address: '0xfce4609743e17d349b7e5f478a7a9a6cfa3c808c',
       block: 0,
     },
-    128: {
+    [ChainId.Huobi]: {
       address: '0x56171094a15b8cac4314c0f8930100b939503bd9',
       block: 0,
     },
-    137: {
+    [ChainId.Polygon]: {
       address: '0x35e4aa226ce52e1e59e5e5ec24766007bcbe2e7d',
       block: 12608630,
     },
-    250: {
+    [ChainId.Fantom]: {
       address: '0xc04d660976c923ddba750341fe5923e47900cf24',
       block: 0,
     },
-    288: {
+    [ChainId.Boba]: {
       address: '0x650129FB67354eF8C148a8CDb1a2d5E01B520CaD',
       block: 0,
     },
-    321: {
+    [ChainId.KCC]: {
       address: '0x543528e13eac69206e87334cca971503a552438b',
       block: 0,
     },
-    324: {
+    [ChainId.ZkSync]: {
       address: '0x52806DC8c5Cb95a560039409FE2e1C29d9eBb22f',
       block: 9531405,
     },
-    592: {
+    [ChainId.Astar]: {
       address: '0x57F40bbBCc11BE5471a8f9bF1dE56816a1CF08f6',
       block: 0,
     },
-    820: {
+    [ChainId.Callisto]: {
       address: '0x8ba3d23241c7044be703afaf2a728fdbc16f5f6f',
       block: 0,
     },
-    1234: {
+    [ChainId.Step]: {
       address: '0x176CcFFbAB792Aaa0da7C430FE20a7106d969f66',
       block: 22,
     },
-    1284: {
+    [ChainId.Moonbeam]: {
       address: '0x83e3b61886770de2F64AAcaD2724ED4f08F7f36B',
       block: 0,
     },
-    1337: {
+    [ChainId.Geth]: {
       address: '0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e',
       block: 0,
     },
-    3999: {
+    [ChainId.YuanChain]: {
       address: '0xFC8bd6469c65d58fBf969512Be1564579cEc4855',
       block: 859439,
     },
-    4689: {
+    [ChainId.LoTeX]: {
       address: '0x0e14ded9e7965c6446df2e5c528dd1b4e3b4640f',
       block: 0,
     },
-    31337: {
+    [ChainId.GoChain]: {
       address: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
       block: 0,
     },
-    42161: {
+    [ChainId.ArbitrumOne]: {
       address: '0x10126ceb60954bc35049f24e819a380c505f8a0f',
       block: 0,
     },
-    42262: {
+    [ChainId.OasisEmerald]: {
       address: '0xAC84239C64D4E21c98C905Eca62af0b56017B8F6',
       block: 0,
     },
-    43114: {
+    [ChainId.Avalanche]: {
       address: '0xE8eeDd99baC03871CF123E76cE90bA179Df94351',
       block: 0,
     },
-    80001: {
+    [ChainId.Mumbai]: {
       address: '0x08411add0b5aa8ee47563b146743c13b3556c9cc',
       block: 12011090,
     },
-    1313161554: {
+    [ChainId.Aurora]: {
       address: '0xa48c67d1c60b8187ecb7c549e8a670419d356994',
       block: 0,
     },
-    1666600000: {
+    [ChainId.Harmony]: {
       address: '0xfe4980f62d708c2a84d3929859ea226340759320',
       block: 0,
     },
-    73927: {
+    [ChainId.MixinVirtualMachine]: {
       address: '0x9Fa7eAC783F772734337B99D1d5AAeAd75Cd9077',
       block: 14080409,
     },
   };
-  return addressMap[chainId];
+  return addressMap[chainId] || null;
 }
 
-function getMulticall2(chainId: number): Multicall | null {
-  const addressMap: Record<number, Multicall | null> = {
-    1: {
+function getMulticall2(chainId: ChainId): Multicall | null {
+  const addressMap: MulticallMap = {
+    [ChainId.Ethereum]: {
       address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
       block: 12336033,
     },
-    4: {
+    [ChainId.Rinkeby]: {
       address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
       block: 8283206,
     },
-    5: {
+    [ChainId.Gorli]: {
       address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
       block: 4489716,
     },
-    10: {
+    [ChainId.Optimism]: {
       address: '0x054FfF7ee30953DdB739458e11EAAd51224343a1',
       block: 31946661,
     },
-    42: {
+    [ChainId.Lukso]: {
       address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
       block: 24025820,
     },
-    56: {
+    [ChainId.Binance]: {
       address: '0x4c6bb7c24b6f3dfdfb548e54b7c5ea4cb52a0069',
       block: 0,
     },
-    100: {
+    [ChainId.Gnosis]: {
       address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
       block: 0,
     },
-    137: {
+    [ChainId.Polygon]: {
       address: '0xf43a7be1b284aa908cdfed8b3e286961956b4d2c',
       block: 15695723,
     },
-    250: {
+    [ChainId.Fantom]: {
       address: '0x470ADB45f5a9ac3550bcFFaD9D990Bf7e2e941c9',
       block: 0,
     },
-    324: {
+    [ChainId.ZkSync]: {
       address: '0xDED0Aa78681A5AbF85D830D4478cf4acF00Ec4a4',
       block: 9531409,
     },
-    420: {
+    [ChainId.OptimismGoerli]: {
       address: '0x9477d5bA4Ed7568eD73da6b2cbcd63D92Bb8eBB1',
       block: 3441852,
     },
-    1284: {
+    [ChainId.Moonbeam]: {
       address: '0x9256d856A13EB3732d90D88B57F33d0847Fa50bF',
       block: 0,
     },
-    1337: {
+    [ChainId.Geth]: {
       address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
       block: 0,
     },
-    3999: {
+    [ChainId.YuanChain]: {
       address: '0xf03f60aC45EC5616516dC400C3f25Ec6Db566c9F',
       block: 859481,
     },
-    31337: {
+    [ChainId.GoChain]: {
       address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
       block: 0,
     },
-    42161: {
+    [ChainId.ArbitrumOne]: {
       address: '0x842eC2c7D803033Edf55E478F461FC547Bc54EB2',
       block: 0,
     },
-    42220: {
+    [ChainId.Celo]: {
       address: '0xE72f42c64EA3dc05D2D94F541C3a806fa161c49B',
       block: 9325322,
     },
-    44787: {
+    [ChainId.CeloAlfajores]: {
       address: '0xA3A2E17933C0865534Ac7839F7a860E40C95D340',
       block: 9082778,
     },
-    53935: {
+    [ChainId.DFK]: {
       address: '0x5b24224dC16508DAD755756639E420817DD4c99E',
       block: 62,
     },
-    421611: {
+    [ChainId.ArbitrumRinkeby]: {
       address: '0x96DB1F8055074aB62161B6Ad66Ab6B8679513DeF',
       block: 0,
     },
-    73927: {
+    [ChainId.MixinVirtualMachine]: {
       address: '0x5Ac86eC2e6332280Eff161c169aCcC345996c340',
       block: 14080778,
     },
   };
-  return addressMap[chainId];
+  return addressMap[chainId] || null;
 }
 
-function getMulticall3(chainId: number): Multicall | null {
+function getMulticall3(chainId: ChainId): Multicall | null {
   const address = '0xca11bde05977b3631167028862be2a173976ca11';
-  const addressMap: Record<number, Multicall | null> = {
-    1: {
+  const addressMap: MulticallMap = {
+    [ChainId.Ethereum]: {
       address,
       block: 14353601,
     },
-    3: {
+    [ChainId.Ropsten]: {
       address,
       block: 12063863,
     },
-    4: {
+    [ChainId.Rinkeby]: {
       address,
       block: 10299530,
     },
-    5: {
+    [ChainId.Gorli]: {
       address,
       block: 6507670,
     },
-    10: {
+    [ChainId.Optimism]: {
       address,
       block: 4286263,
     },
-    14: {
+    [ChainId.Flare]: {
       address,
       block: 3002461,
     },
-    16: {
+    [ChainId.Coston]: {
       address,
       block: 276388,
     },
-    19: {
+    [ChainId.Songbird]: {
       address,
       block: 13382504,
     },
-    42: {
+    [ChainId.Lukso]: {
       address,
       block: 30285908,
     },
-    56: {
+    [ChainId.Binance]: {
       address,
       block: 15921452,
     },
-    69: {
+    [ChainId.OptimismKovan]: {
       address,
       block: 1418387,
     },
-    97: {
+    [ChainId.BinanceTestnet]: {
       address,
       block: 17422483,
     },
-    100: {
+    [ChainId.Gnosis]: {
       address,
       block: 21022491,
     },
-    114: {
+    [ChainId.Coston2]: {
       address,
       block: 508735,
     },
-    137: {
+    [ChainId.Polygon]: {
       address,
       block: 25770160,
     },
-    250: {
+    [ChainId.Fantom]: {
       address,
       block: 33001987,
     },
-    324: {
+    [ChainId.ZkSync]: {
       address: '0x413fEb613604D46586c22801949A5b88b224c260',
       block: 9531414,
     },
-    420: {
+    [ChainId.OptimismGoerli]: {
       address,
       block: 49461,
     },
-    1284: {
+    [ChainId.Moonbeam]: {
       address,
       block: 609002,
     },
-    1285: {
+    [ChainId.Moonriver]: {
       address,
       block: 1597904,
     },
-    1287: {
+    [ChainId.MoonbaseAlpha]: {
       address,
       block: 1850686,
     },
-    2222: {
+    [ChainId.Kava]: {
       address: '0x1578f6d2D3168acF41b506AA666A521994F6BAB6',
       block: 1176602,
     },
-    4002: {
+    [ChainId.FantomTestnet]: {
       address,
       block: 8328688,
     },
-    8453: {
+    [ChainId.Base]: {
       address: '0xcA11bde05977b3631167028862bE2a173976CA11',
       block: 5022,
     },
-    42161: {
+    [ChainId.ArbitrumOne]: {
       address,
       block: 7654707,
     },
-    42220: {
+    [ChainId.Celo]: {
       address,
       block: 13112599,
     },
-    43113: {
+    [ChainId.AvalancheFuji]: {
       address,
       block: 7096959,
     },
-    43114: {
+    [ChainId.Avalanche]: {
       address,
       block: 11907934,
     },
-    80001: {
+    [ChainId.Mumbai]: {
       address,
       block: 25444704,
     },
-    421611: {
+    [ChainId.ArbitrumRinkeby]: {
       address,
       block: 10228837,
     },
-    1666600000: {
+    [ChainId.Harmony]: {
       address,
       block: 24185753,
     },
-    73927: {
+    [ChainId.MixinVirtualMachine]: {
       address: '0x138A85647768815078DF1dD85C6121e611381A0b',
       block: 14080843,
     },
   };
-  return addressMap[chainId];
+  return addressMap[chainId] || null;
 }
 
 const deploylessMulticallBytecode =
@@ -380,4 +434,4 @@ export {
   deploylessMulticall2Bytecode,
   deploylessMulticall3Bytecode,
 };
-export type { Multicall };
+export type { Multicall, ChainId };
