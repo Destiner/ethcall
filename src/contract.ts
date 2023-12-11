@@ -11,8 +11,8 @@ import type { Call } from './call.js';
  * daiContract.balanceOf(address); // returns a Call object
  */
 class Contract {
-  #address: string;
-  #functions: JsonFragment[];
+  address: string;
+  functions: JsonFragment[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: Call | any;
 
@@ -22,11 +22,11 @@ class Contract {
    * @param abi ABI of the contract
    */
   constructor(address: string, abi: JsonFragment[]) {
-    this.#address = address;
+    this.address = address;
 
-    this.#functions = abi.filter((x) => x.type === 'function');
-    const callFunctions = this.#functions.filter(
-      (x) => x.stateMutability === 'pure' || x.stateMutability === 'view',
+    this.functions = abi.filter((x) => x.type === 'function');
+    const callFunctions = this.functions.filter(
+      (f) => f.stateMutability === 'pure' || f.stateMutability === 'view',
     );
 
     for (const callFunction of callFunctions) {
@@ -34,7 +34,7 @@ class Contract {
       if (!name) {
         continue;
       }
-      const getCall = this.#makeCallFunction(name);
+      const getCall = this.makeCallFunction(name);
       if (!this[name]) {
         Object.defineProperty(this, name, {
           enumerable: true,
@@ -45,10 +45,10 @@ class Contract {
     }
   }
 
-  #makeCallFunction(name: string) {
+  makeCallFunction(name: string) {
     return (...params: Params): Call => {
-      const address = this.#address;
-      const func = this.#functions.find((f) => f.name === name);
+      const address = this.address;
+      const func = this.functions.find((f) => f.name === name);
       const inputs = func?.inputs || [];
       const outputs = func?.outputs || [];
       return {

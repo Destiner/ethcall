@@ -1,4 +1,4 @@
-import multicallAbi from './abi/multicall.json' assert { type: 'json' };
+import multicallAbi from './abi/multicall.json';
 import type { Call } from './call.js';
 import Contract from './contract.js';
 

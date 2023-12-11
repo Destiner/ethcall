@@ -1,6 +1,7 @@
 import { describe, test, expect } from 'vitest';
 
-import { Call, Contract } from '../src';
+import { Contract } from '../src';
+import type { Call } from '../src';
 
 import erc20Abi from './abi/erc20.json';
 
