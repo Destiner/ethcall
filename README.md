@@ -1,5 +1,7 @@
 # ethcall
 
+> This package is not maintained and will be archived. Use viem's [`multicall`](https://viem.sh/docs/contract/multicall#multicall).
+
 Utility library to make calls to Ethereum blockchain.
 
 Uses MakerDAO's [Multicall contracts](https://github.com/makerdao/multicall) to make multiple requests in a single HTTP query. Encodes and decodes data automatically.
