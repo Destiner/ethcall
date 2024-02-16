@@ -22,11 +22,11 @@ interface ProviderConfig {
  * Represents a Multicall provider. Used to execute multiple Calls.
  */
 class Provider {
-  #provider?: EthersProvider;
-  #config: Partial<ProviderConfig>;
-  #multicall: Multicall | null;
-  #multicall2: Multicall | null;
-  #multicall3: Multicall | null;
+  provider?: EthersProvider;
+  config: Partial<ProviderConfig>;
+  multicall: Multicall | null;
+  multicall2: Multicall | null;
+  multicall3: Multicall | null;
 
   /**
    * Create a provider.
@@ -39,11 +39,11 @@ class Provider {
     provider: EthersProvider,
     config?: Partial<ProviderConfig>,
   ) {
-    this.#provider = provider;
-    this.#config = config || {};
-    this.#multicall = this.#getMulticall(chainId, 1);
-    this.#multicall2 = this.#getMulticall(chainId, 2);
-    this.#multicall3 = this.#getMulticall(chainId, 3);
+    this.provider = provider;
+    this.config = config || {};
+    this.multicall = this.getMulticall(chainId, 1);
+    this.multicall2 = this.getMulticall(chainId, 2);
+    this.multicall3 = this.getMulticall(chainId, 3);
   }
 
   /**
@@ -52,10 +52,10 @@ class Provider {
    * @returns Ether balance fetching call
    */
   getEthBalance(address: string): Call {
-    const multicall = this.#multicall3 || this.#multicall2 || this.#multicall;
-    if (!multicall) {
+    const multicall = this.multicall3 || this.multicall2 || this.multicall;
+    if (!multicall)
       throw Error('Multicall contract is not available on this network.');
-    }
+
     return getEthBalance(address, multicall.address);
   }
 
@@ -68,11 +68,11 @@ class Provider {
    * @returns List of fetched data
    */
   async all<T>(calls: Call[], overrides?: CallOverrides): Promise<T[]> {
-    if (!this.#provider) {
+    if (!this.provider)
       throw Error('Provider should be initialized before use.');
-    }
-    const multicall = this.#getContract('BASIC', overrides?.blockTag);
-    const provider = this.#provider;
+
+    const multicall = this.getContract('BASIC', overrides?.blockTag);
+    const provider = this.provider;
     return await callAll<T>(provider, multicall, calls, overrides);
   }
 
@@ -87,11 +87,11 @@ class Provider {
     calls: Call[],
     overrides?: CallOverrides,
   ): Promise<(T | null)[]> {
-    if (!this.#provider) {
+    if (!this.provider)
       throw Error('Provider should be initialized before use.');
-    }
-    const multicall = this.#getContract('TRY_ALL', overrides?.blockTag);
-    const provider = this.#provider;
+
+    const multicall = this.getContract('TRY_ALL', overrides?.blockTag);
+    const provider = this.provider;
     return await callTryAll<T>(provider, multicall, calls, overrides);
   }
 
@@ -109,11 +109,11 @@ class Provider {
     canFail: boolean[],
     overrides?: CallOverrides,
   ): Promise<(T | null)[]> {
-    if (!this.#provider) {
+    if (!this.provider)
       throw Error('Provider should be initialized before use.');
-    }
-    const multicall = this.#getContract('TRY_EACH', overrides?.blockTag);
-    const provider = this.#provider;
+
+    const multicall = this.getContract('TRY_EACH', overrides?.blockTag);
+    const provider = this.provider;
     const failableCalls = calls.map((call, index) => {
       return {
         ...call,
@@ -123,15 +123,15 @@ class Provider {
     return await callTryEach<T>(provider, multicall, failableCalls, overrides);
   }
 
-  #getContract(call: CallType, block?: BlockTag): Multicall | null {
-    const multicall = this.#isAvailable(this.#multicall, block)
-      ? this.#multicall
+  getContract(call: CallType, block?: BlockTag): Multicall | null {
+    const multicall = this.isAvailable(this.multicall, block)
+      ? this.multicall
       : null;
-    const multicall2 = this.#isAvailable(this.#multicall2, block)
-      ? this.#multicall2
+    const multicall2 = this.isAvailable(this.multicall2, block)
+      ? this.multicall2
       : null;
-    const multicall3 = this.#isAvailable(this.#multicall3, block)
-      ? this.#multicall3
+    const multicall3 = this.isAvailable(this.multicall3, block)
+      ? this.multicall3
       : null;
     switch (call) {
       case 'BASIC':
@@ -143,7 +143,7 @@ class Provider {
     }
   }
 
-  #isAvailable(multicall: Multicall | null, block?: BlockTag): boolean {
+  isAvailable(multicall: Multicall | null, block?: BlockTag): boolean {
     if (!multicall) {
       return false;
     }
@@ -156,7 +156,7 @@ class Provider {
     return multicall.block < block;
   }
 
-  #getMulticall(chainId: number, version: 1 | 2 | 3): Multicall | null {
+  getMulticall(chainId: number, version: 1 | 2 | 3): Multicall | null {
     function getRegistryMulticall(
       chainId: number,
       version: 1 | 2 | 3,
@@ -171,14 +171,12 @@ class Provider {
       }
     }
 
-    const customMulticall = this.#config?.multicall;
-    if (!customMulticall) {
-      return getRegistryMulticall(chainId, version);
-    }
+    const customMulticall = this.config?.multicall;
+    if (!customMulticall) return getRegistryMulticall(chainId, version);
+
     const address = customMulticall.address;
-    if (!address) {
-      return getRegistryMulticall(chainId, version);
-    }
+    if (!address) return getRegistryMulticall(chainId, version);
+
     return {
       address,
       block: customMulticall.block || 0,
