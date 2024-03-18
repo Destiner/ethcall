@@ -62,14 +62,18 @@ async function all<T>(
       callData,
     };
   });
-  const response = contract
+  const response = contract && contract.aggregate
     ? await contract.aggregate(callRequests, overrides || {})
     : await callDeployless(provider, callRequests, overrides?.blockTag);
   const callCount = calls.length;
   const callResult: T[] = [];
   for (let i = 0; i < callCount; i++) {
-    const name = calls[i].name;
-    const outputs = calls[i].outputs;
+    const call = calls[i];
+    if (!call) {
+      throw new Error("Unable to access the call");
+    }
+    const name = call.name;
+    const outputs = call.outputs;
     const returnData = response.returnData[i];
     const params = Abi.decode(name, outputs, returnData);
     const result = outputs.length === 1 ? params[0] : params;
@@ -94,15 +98,22 @@ async function tryAll<T>(
       callData,
     };
   });
-  const response: CallResult[] = contract
+  const response: CallResult[] = contract && contract.tryAggregate
     ? await contract.tryAggregate(false, callRequests, overrides || {})
     : await callDeployless2(provider, callRequests, overrides?.blockTag);
   const callCount = calls.length;
   const callResult: (T | null)[] = [];
   for (let i = 0; i < callCount; i++) {
-    const name = calls[i].name;
-    const outputs = calls[i].outputs;
+    const call = calls[i];
+    if (!call) {
+      throw new Error("Unable to access the call");
+    }
+    const name = call.name;
+    const outputs = call.outputs;
     const result = response[i];
+    if (!result) {
+      throw new Error("Unable to access the result");
+    }
     if (!result.success) {
       callResult.push(null);
     } else {
@@ -136,15 +147,22 @@ async function tryEach<T>(
       callData,
     };
   });
-  const response: CallResult[] = contract
+  const response: CallResult[] = contract && contract.aggregate3
     ? await contract.aggregate3(callRequests, overrides || {})
     : await callDeployless3(provider, callRequests, overrides?.blockTag);
   const callCount = calls.length;
   const callResult: (T | null)[] = [];
   for (let i = 0; i < callCount; i++) {
-    const name = calls[i].name;
-    const outputs = calls[i].outputs;
+    const call = calls[i];
+    if (!call) {
+      throw new Error("Unable to access the call");
+    }
+    const name = call.name;
+    const outputs = call.outputs;
     const result = response[i];
+    if (!result) {
+      throw new Error("Unable to access the result");
+    }
     if (!result.success) {
       callResult.push(null);
     } else {

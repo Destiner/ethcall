@@ -5,7 +5,7 @@ interface Multicall {
 }
 
 function getMulticall(chainId: number): Multicall | null {
-  const addressMap: Record<number, Multicall | null> = {
+  const addressMap: Record<number, Multicall> = {
     1: {
       address: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
       block: 7929876,
@@ -135,7 +135,11 @@ function getMulticall(chainId: number): Multicall | null {
       block: 14080409,
     },
   };
-  return addressMap[chainId];
+  const chainAddressMap = addressMap[chainId];
+  if (!chainAddressMap) {
+    return null;
+  }
+  return chainAddressMap;
 }
 
 function getMulticall2(chainId: number): Multicall | null {
@@ -225,7 +229,11 @@ function getMulticall2(chainId: number): Multicall | null {
       block: 14080778,
     },
   };
-  return addressMap[chainId];
+  const chainAddressMap = addressMap[chainId];
+  if (!chainAddressMap) {
+    return null;
+  }
+  return chainAddressMap;
 }
 
 function getMulticall3(chainId: number): Multicall | null {
@@ -364,7 +372,11 @@ function getMulticall3(chainId: number): Multicall | null {
       block: 14080843,
     },
   };
-  return addressMap[chainId];
+  const chainAddressMap = addressMap[chainId];
+  if (!chainAddressMap) {
+    return null;
+  }
+  return chainAddressMap;
 }
 
 const deploylessMulticallBytecode =

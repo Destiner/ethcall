@@ -115,9 +115,13 @@ class Provider {
     const multicall = this.#getContract('TRY_EACH', overrides?.blockTag);
     const provider = this.#provider;
     const failableCalls = calls.map((call, index) => {
+      const callCanFail = canFail[index];
+      if (callCanFail === undefined) {
+        throw new Error("Unable to access the canFail value");
+      }
       return {
         ...call,
-        canFail: canFail[index],
+        canFail: callCanFail,
       };
     });
     return await callTryEach<T>(provider, multicall, failableCalls, overrides);
