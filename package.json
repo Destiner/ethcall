@@ -13,8 +13,8 @@
     "url": "git://github.com/Destiner/ethcall.git"
   },
   "type": "module",
-  "main": "lib/index.js",
-  "exports": "./lib/index.js",
+  "main": "dist/index.js",
+  "exports": "dist/index.js",
   "scripts": {
     "test": "vitest run",
     "lint": "npm run lint:eslint && npm run lint:prettier",
