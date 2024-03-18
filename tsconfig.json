@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    /* Base */
+    /* General */
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "ES2022",
@@ -25,7 +25,7 @@
     "sourceMap": true,
     /* Building for a library */
     "declaration": true,
-    /* General environment */
+    /* Environment */
     "lib": ["ES2022"],
     /* Imports */
     "baseUrl": "src",
