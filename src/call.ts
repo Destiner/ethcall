@@ -62,15 +62,16 @@ async function all<T>(
       callData,
     };
   });
-  const response = contract && contract.aggregate
-    ? await contract.aggregate(callRequests, overrides || {})
-    : await callDeployless(provider, callRequests, overrides?.blockTag);
+  const response =
+    contract && contract.aggregate
+      ? await contract.aggregate(callRequests, overrides || {})
+      : await callDeployless(provider, callRequests, overrides?.blockTag);
   const callCount = calls.length;
   const callResult: T[] = [];
   for (let i = 0; i < callCount; i++) {
     const call = calls[i];
     if (!call) {
-      throw new Error("Unable to access the call");
+      throw new Error('Unable to access the call');
     }
     const name = call.name;
     const outputs = call.outputs;
@@ -98,21 +99,22 @@ async function tryAll<T>(
       callData,
     };
   });
-  const response: CallResult[] = contract && contract.tryAggregate
-    ? await contract.tryAggregate(false, callRequests, overrides || {})
-    : await callDeployless2(provider, callRequests, overrides?.blockTag);
+  const response: CallResult[] =
+    contract && contract.tryAggregate
+      ? await contract.tryAggregate(false, callRequests, overrides || {})
+      : await callDeployless2(provider, callRequests, overrides?.blockTag);
   const callCount = calls.length;
   const callResult: (T | null)[] = [];
   for (let i = 0; i < callCount; i++) {
     const call = calls[i];
     if (!call) {
-      throw new Error("Unable to access the call");
+      throw new Error('Unable to access the call');
     }
     const name = call.name;
     const outputs = call.outputs;
     const result = response[i];
     if (!result) {
-      throw new Error("Unable to access the result");
+      throw new Error('Unable to access the result');
     }
     if (!result.success) {
       callResult.push(null);
@@ -147,21 +149,22 @@ async function tryEach<T>(
       callData,
     };
   });
-  const response: CallResult[] = contract && contract.aggregate3
-    ? await contract.aggregate3(callRequests, overrides || {})
-    : await callDeployless3(provider, callRequests, overrides?.blockTag);
+  const response: CallResult[] =
+    contract && contract.aggregate3
+      ? await contract.aggregate3(callRequests, overrides || {})
+      : await callDeployless3(provider, callRequests, overrides?.blockTag);
   const callCount = calls.length;
   const callResult: (T | null)[] = [];
   for (let i = 0; i < callCount; i++) {
     const call = calls[i];
     if (!call) {
-      throw new Error("Unable to access the call");
+      throw new Error('Unable to access the call');
     }
     const name = call.name;
     const outputs = call.outputs;
     const result = response[i];
     if (!result) {
-      throw new Error("Unable to access the result");
+      throw new Error('Unable to access the result');
     }
     if (!result.success) {
       callResult.push(null);

@@ -117,7 +117,7 @@ class Provider {
     const failableCalls = calls.map((call, index) => {
       const callCanFail = canFail[index];
       if (callCanFail === undefined) {
-        throw new Error("Unable to access the canFail value");
+        throw new Error('Unable to access the canFail value');
       }
       return {
         ...call,
