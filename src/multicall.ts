@@ -363,6 +363,10 @@ function getMulticall3(chainId: number): Multicall | null {
       address,
       block: 10228837,
     },
+    5000: {
+      address: '0xd77b59d4cb13bea71f3cc093e401720867355d6e',
+      block: 18877383,
+    },
     1666600000: {
       address,
       block: 24185753,
@@ -370,6 +374,10 @@ function getMulticall3(chainId: number): Multicall | null {
     73927: {
       address: '0x138A85647768815078DF1dD85C6121e611381A0b',
       block: 14080843,
+    },
+    81457: {
+      address: '0x23928c6f823e0d78eadc9d2f69ace652ff3cdcb1',
+      block: 368182,
     },
   };
   const chainAddressMap = addressMap[chainId];
