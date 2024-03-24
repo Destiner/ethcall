@@ -1,5 +1,6 @@
 # ethcall
 
+> [!WARNING]  
 > This package is not maintained and will be archived. Use viem's [`multicall`](https://viem.sh/docs/contract/multicall#multicall).
 
 Utility library to make calls to Ethereum blockchain.
