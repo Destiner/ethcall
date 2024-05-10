@@ -14,7 +14,7 @@
   },
   "type": "module",
   "main": "dist/index.js",
-  "exports": "dist/index.js",
+  "exports": "./dist/index.js",
   "scripts": {
     "test": "vitest run",
     "lint": "npm run lint:eslint && npm run lint:prettier",
